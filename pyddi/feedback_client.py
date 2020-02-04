@@ -1,8 +1,5 @@
 import requests
 
-from models.request.feedback.GetFeedbackByStatus import GetFeedbackByStatus
-from models.request.feedback.SaveFeedBack import SaveFeedBack
-
 
 class FeedbackClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
