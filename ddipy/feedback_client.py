@@ -4,9 +4,9 @@ import requests
 class FeedbackClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                              "Chrome/54.0.2840.99 Safari/537.36"}
-    feedbackUrl = "https://www.omicsdi.org:443/ws/feedback/saveFeedback"
-    getAllFeedbacksUrl = "https://www.omicsdi.org:443/ws/feedback/getAllFeedbacks"
-    getFeedbackByStatusUrl = "https://www.omicsdi.org:443/ws/feedback/getFeedbackByStatus"
+    feedbackUrl = "https://www.omicsdi.org/ws/feedback/saveFeedback"
+    getAllFeedbacksUrl = "https://www.omicsdi.org/ws/feedback/getAllFeedbacks"
+    getFeedbackByStatusUrl = "https://www.omicsdi.org/ws/feedback/getFeedbackByStatus"
 
     def __init__(self):
         pass
