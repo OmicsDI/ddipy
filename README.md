@@ -1,4 +1,4 @@
-[ddiPy](https://github.com/OmicsDI/Pyddi)
+[ddiPy](https://github.com/OmicsDI/ddipy)
 ======
 
 An [Python package](https://github.com/OmicsDI/Pyddi) to obtain data from the Omics Discovery Index ([OmicsDI](http://www.omicsdi.org). It uses its RESTful Web Services at [OmicsDI WS](http://www.omicsdi.org/ws/) for that purpose.  
