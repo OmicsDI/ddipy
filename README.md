@@ -16,7 +16,7 @@ we need to install `ddipy`:
 
 This exmaple shows how retrieve details of one dataset by using the Python-package ddipy. 
 
-from ddipy.dataset_client import DatasetClient
+    from ddipy.dataset_client import DatasetClient
 
     if __name__ == '__main__':
         client = DatasetClient()
