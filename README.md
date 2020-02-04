@@ -20,7 +20,7 @@ This exmaple shows how retrieve details of one dataset by using the Python-packa
 
     if __name__ == '__main__':
         client = DatasetClient()
-        res = client.get_dataset_from_domain_and_accession("pride", "PXD000210", False)
+        res = client.get_dataset_details("pride", "PXD000210", False)
         print(res.text)
 
 Find out about us in our GitHub profiles:  

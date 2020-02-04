@@ -4,7 +4,7 @@ import requests
 class DatasetClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                              "Chrome/54.0.2840.99 Safari/537.36"}
-    baseDatasetUrl = "https://www.omicsdi.org:443/ws/dataset"
+    baseDatasetUrl = "https://www.omicsdi.org/ws/dataset"
     mergeUrl = "https://www.omicsdi.org/ws/dataset/merge"
     getDatasetPageUrl = "https://www.omicsdi.org/ws/dataset/getDatasetPage"
     unmergeUrl = "https://www.omicsdi.org/ws/dataset/unmerge"
@@ -153,13 +153,13 @@ class DatasetClient:
         res = requests.post(self.skipMergeUrl, params=request_params, headers=tokened_header)
         return res
 
-    def get_dataset_from_domain_and_accession(self, domain, accession, debug):
+    def get_dataset_details(self, domain, accession, debug):
         res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession, params={
             "debug": debug
         }, headers=self.headers)
         return res
 
-    def get_dataset_files_from_domain_and_accession(self, domain, accession, position):
+    def get_dataset_files(self, domain, accession, position):
         res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession + "/files",
                            params={
                                "position": position

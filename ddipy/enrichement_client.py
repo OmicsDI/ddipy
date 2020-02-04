@@ -4,12 +4,12 @@ import requests
 class EnrichmentClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                              "Chrome/54.0.2840.99 Safari/537.36"}
-    getSynonymsForDatasetUrl = "https://www.omicsdi.org:443/ws/enrichment/getSynonymsForDataset"
-    getReanalysisUrl = "https://www.omicsdi.org:443/ws/enrichment/getSynonymsForDataset"
-    getEnrichmentInfoUrl = "https://www.omicsdi.org:443/ws/enrichment/getEnrichmentInfo"
-    getSimilarDatasetsByBiologicalDataUrl = "https://www.omicsdi.org:443/ws/enrichment" \
+    getSynonymsForDatasetUrl = "https://www.omicsdi.org/ws/enrichment/getSynonymsForDataset"
+    getReanalysisUrl = "https://www.omicsdi.org/ws/enrichment/getSynonymsForDataset"
+    getEnrichmentInfoUrl = "https://www.omicsdi.org/ws/enrichment/getEnrichmentInfo"
+    getSimilarDatasetsByBiologicalDataUrl = "https://www.omicsdi.org/ws/enrichment" \
                                             "/getSimilarDatasetsByBiologicalData "
-    getSimilarityInfoUrl = "https://www.omicsdi.org:443/ws/enrichment/getSimilarityInfo"
+    getSimilarityInfoUrl = "https://www.omicsdi.org/ws/enrichment/getSimilarityInfo"
 
     def __init__(self):
         pass

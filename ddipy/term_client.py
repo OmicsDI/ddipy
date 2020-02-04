@@ -4,8 +4,8 @@ import requests
 class TermClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                              "Chrome/54.0.2840.99 Safari/537.36"}
-    getTermByPatternUrl = "https://www.omicsdi.org:443/ws/term/getTermByPattern"
-    getFrequentlyTermListUrl = "https://www.omicsdi.org:443/ws/term/frequentlyTerm/list"
+    getTermByPatternUrl = "https://www.omicsdi.org/ws/term/getTermByPattern"
+    getFrequentlyTermListUrl = "https://www.omicsdi.org/ws/term/frequentlyTerm/list"
 
     def __init__(self):
         pass

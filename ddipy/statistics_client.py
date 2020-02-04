@@ -4,14 +4,14 @@ import requests
 class StatisticsClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                              "Chrome/54.0.2840.99 Safari/537.36"}
-    getStatisticsOrganismsUrl = "https://www.omicsdi.org:443/ws/statistics/organisms"
-    getStatisticsTissuesUrl = "https://www.omicsdi.org:443/ws/statistics/tissues"
-    getStatisticsOmicsUrl = "https://www.omicsdi.org:443/ws/statistics/omics"
-    getStatisticsVersionUrl = "https://www.omicsdi.org:443/ws/statistics/version"
-    getStatisticsDiseasesUrl = "https://www.omicsdi.org:443/ws/statistics/diseases"
-    getStatisticsDomainsUrl = "https://www.omicsdi.org:443/ws/statistics/domains"
-    getStatisticsOmicsByYearUrl = "https://www.omicsdi.org:443/ws/statistics/omicsByYear"
-    getStatisticsGeneralUrl = "https://www.omicsdi.org:443/ws/statistics/general"
+    getStatisticsOrganismsUrl = "https://www.omicsdi.org/ws/statistics/organisms"
+    getStatisticsTissuesUrl = "https://www.omicsdi.org/ws/statistics/tissues"
+    getStatisticsOmicsUrl = "https://www.omicsdi.org/ws/statistics/omics"
+    getStatisticsVersionUrl = "https://www.omicsdi.org/ws/statistics/version"
+    getStatisticsDiseasesUrl = "https://www.omicsdi.org/ws/statistics/diseases"
+    getStatisticsDomainsUrl = "https://www.omicsdi.org/ws/statistics/domains"
+    getStatisticsOmicsByYearUrl = "https://www.omicsdi.org/ws/statistics/omicsByYear"
+    getStatisticsGeneralUrl = "https://www.omicsdi.org/ws/statistics/general"
 
     def __init__(self):
         pass
