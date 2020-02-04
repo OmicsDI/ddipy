@@ -4,9 +4,9 @@ import requests
 class DatabaseClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                              "Chrome/54.0.2840.99 Safari/537.36"}
-    baseDatabaseUrl = "https://www.omicsdi.org:443/ws/database"
-    getDatabaseAllUrl = "https://www.omicsdi.org:443/ws/database/all"
-    getDatabasePicbytesUrl = "https://www.omicsdi.org:443/ws/database/db/picturebyte"
+    baseDatabaseUrl = "https://www.omicsdi.org/ws/database"
+    getDatabaseAllUrl = "https://www.omicsdi.org/ws/database/all"
+    getDatabasePicbytesUrl = "https://www.omicsdi.org/ws/database/db/picturebyte"
 
     def __init__(self):
         pass
