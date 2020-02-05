@@ -1,5 +1,7 @@
 import requests
 
+from ddipy.verify_utils import VerifyUtils
+
 
 class DatabaseClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -12,6 +14,9 @@ class DatabaseClient:
         pass
 
     def get_database_pic(self, database_name):
+        if database_name:
+            return VerifyUtils.empty_param_error("database_name")
+
         res = requests.get(self.baseDatabaseUrl + "/" + database_name + "/picture",  headers=self.headers)
         return res
 

@@ -1,5 +1,7 @@
 import requests
 
+from ddipy.verify_utils import VerifyUtils
+
 
 class EnrichmentClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -15,6 +17,12 @@ class EnrichmentClient:
         pass
 
     def get_synonyms_for_dataset(self, accession, database):
+        if accession:
+            return VerifyUtils.empty_param_error("accession")
+
+        if database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.getSynonymsForDatasetUrl, params={
             "accession": accession,
             "database": database
@@ -26,6 +34,12 @@ class EnrichmentClient:
         return res
 
     def get_enrichment_info(self, accession, database):
+        if accession:
+            return VerifyUtils.empty_param_error("accession")
+
+        if database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.getEnrichmentInfoUrl, params={
             "accession": accession,
             "database": database
@@ -33,6 +47,12 @@ class EnrichmentClient:
         return res
 
     def get_similar_datasets_by_biological_data(self, accession, database):
+        if accession:
+            return VerifyUtils.empty_param_error("accession")
+
+        if database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.getSimilarDatasetsByBiologicalDataUrl, params={
             "accession": accession,
             "database": database
@@ -40,6 +60,14 @@ class EnrichmentClient:
         return res
 
     def get_similarity_info(self, accession, database, threshold):
+        if accession:
+            return VerifyUtils.empty_param_error("accession")
+
+        if database:
+            return VerifyUtils.empty_param_error("database")
+
+        if threshold:
+            return VerifyUtils.empty_param_error("threshold")
         res = requests.get(self.getSimilarityInfoUrl, params={
             "accession": accession,
             "database": database,

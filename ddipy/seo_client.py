@@ -1,5 +1,7 @@
 import requests
 
+from ddipy.verify_utils import VerifyUtils
+
 
 class SeoClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -28,6 +30,12 @@ class SeoClient:
         return res
 
     def get_seo_schema(self, acc, domain):
+        if acc:
+            return VerifyUtils.empty_param_error("acc")
+
+        if domain:
+            return VerifyUtils.empty_param_error("domain")
+
         res = requests.get(self.seoSchemaUrl + "/" + domain + "/" + acc, headers=self.headers)
         return res
 
@@ -36,6 +44,12 @@ class SeoClient:
         return res
 
     def get_seo_dataset(self, domain, acc):
+        if acc:
+            return VerifyUtils.empty_param_error("acc")
+
+        if domain:
+            return VerifyUtils.empty_param_error("domain")
+
         res = requests.get(self.seoDatasetUrl + "/" + domain + "/" + acc, headers=self.headers)
         return res
 

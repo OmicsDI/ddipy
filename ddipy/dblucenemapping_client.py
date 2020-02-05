@@ -1,5 +1,7 @@
 import requests
 
+from ddipy.verify_utils import VerifyUtils
+
 
 class DbLuceneMappingClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -25,6 +27,9 @@ class DbLuceneMappingClient:
         return res
 
     def get_lucene_name(self, db_name):
+        if db_name:
+            return VerifyUtils.empty_param_error("dbName")
+
         res = requests.get(self.getLuceneNameUrl, params={
             "dbName": db_name
         }, headers=self.headers)
@@ -35,6 +40,8 @@ class DbLuceneMappingClient:
         return res
 
     def get_db_name(self, lucene_name):
+        if lucene_name:
+            return VerifyUtils.empty_param_error("luceneName")
         res = requests.get(self.getDbNameUrl, params={
             "luceneName": lucene_name
         }, headers=self.headers)

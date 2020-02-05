@@ -34,6 +34,6 @@ class FeedbackClient:
         res = requests.get(self.getAllFeedbacksUrl, headers=self.headers)
         return res
 
-    def get_all_feedbacks_by_status(self, is_satisfied):
+    def get_all_feedbacks_by_status(self, is_satisfied=True):
         res = requests.get(self.getFeedbackByStatusUrl, params={"isSatisfied": is_satisfied}, headers=self.headers)
         return res
