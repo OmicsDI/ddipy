@@ -115,7 +115,7 @@ class DatasetClient:
 
     def get_dataset_by_url(self, url):
 
-        if url:
+        if not url:
             return VerifyUtils.empty_param_error("url")
 
         res = requests.post(self.getDatasetByUrlUrl, params={
@@ -160,10 +160,10 @@ class DatasetClient:
         return res
 
     def get_dataset_details(self, domain, accession, debug=False):
-        if domain:
+        if not domain:
             return VerifyUtils.empty_param_error("domain")
 
-        if accession:
+        if not accession:
             return VerifyUtils.empty_param_error("accession")
 
         res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession, params={
@@ -172,13 +172,13 @@ class DatasetClient:
         return res
 
     def get_dataset_files(self, domain, accession, position):
-        if domain:
+        if not domain:
             return VerifyUtils.empty_param_error("domain")
 
-        if accession:
+        if not accession:
             return VerifyUtils.empty_param_error("accession")
 
-        if position:
+        if not position:
             return VerifyUtils.empty_param_error("position")
 
         res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession + "/files",
@@ -192,21 +192,22 @@ class DatasetClient:
         res = requests.get(self.getDbDatasetCountUrl, headers=self.headers)
         return res
 
-    def search(self, query, sortfield, order, start=0, size=20, faceCount=20):
+    def search(self, query="", sortfield="", order="", start=0, size=20, faceCount=20):
         params = {
             "start": start,
             "size": size,
             "faceCount": faceCount
         }
-        if query:
+        print(query)
+        if not query:
             return VerifyUtils.empty_param_error("query")
         else:
             params.update(query=query)
-        if query:
+        if not query:
             return VerifyUtils.empty_param_error("sortfield")
         else:
             params.update(sortfield=sortfield)
-        if query:
+        if not query:
             return VerifyUtils.empty_param_error("order")
         else:
             params.update(order=order)
@@ -221,10 +222,10 @@ class DatasetClient:
         return res
 
     def get(self, acc, database):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.getUrl, params={
@@ -234,7 +235,7 @@ class DatasetClient:
         return res
 
     def get_similar_by_pubmed(self, pubmed):
-        if pubmed:
+        if not pubmed:
             return VerifyUtils.empty_param_error("pubmed")
 
         res = requests.get(self.getSimilarByPubmedUrl, params={
@@ -243,10 +244,10 @@ class DatasetClient:
         return res
 
     def batch(self, acc, database):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.batchUrl, params={
@@ -262,10 +263,10 @@ class DatasetClient:
         return res
 
     def get_file_links(self, acc, database):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.getFileLinksUrl, params={
@@ -275,10 +276,10 @@ class DatasetClient:
         return res
 
     def get_similar(self, acc, database):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.getSimilarUrl, params={
@@ -287,3 +288,8 @@ class DatasetClient:
         }, headers=self.headers)
         return res
 
+
+if __name__ == '__main__':
+    client = DatasetClient()
+    res = client.search("human")
+    print(res)

@@ -20,10 +20,10 @@ class TermClient:
         return res
 
     def get_term_frequently_term_list(self, domain, field, size=20):
-        if domain:
+        if not domain:
             return VerifyUtils.empty_param_error("domain")
 
-        if field:
+        if not field:
             return VerifyUtils.empty_param_error("field")
 
         res = requests.get(self.getFrequentlyTermListUrl, params={

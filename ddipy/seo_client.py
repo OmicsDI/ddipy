@@ -30,10 +30,10 @@ class SeoClient:
         return res
 
     def get_seo_schema(self, acc, domain):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
 
-        if domain:
+        if not domain:
             return VerifyUtils.empty_param_error("domain")
 
         res = requests.get(self.seoSchemaUrl + "/" + domain + "/" + acc, headers=self.headers)
@@ -44,10 +44,10 @@ class SeoClient:
         return res
 
     def get_seo_dataset(self, domain, acc):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
 
-        if domain:
+        if not domain:
             return VerifyUtils.empty_param_error("domain")
 
         res = requests.get(self.seoDatasetUrl + "/" + domain + "/" + acc, headers=self.headers)

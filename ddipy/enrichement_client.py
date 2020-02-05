@@ -17,10 +17,10 @@ class EnrichmentClient:
         pass
 
     def get_synonyms_for_dataset(self, accession, database):
-        if accession:
+        if not accession:
             return VerifyUtils.empty_param_error("accession")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.getSynonymsForDatasetUrl, params={
@@ -34,10 +34,10 @@ class EnrichmentClient:
         return res
 
     def get_enrichment_info(self, accession, database):
-        if accession:
+        if not accession:
             return VerifyUtils.empty_param_error("accession")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.getEnrichmentInfoUrl, params={
@@ -47,10 +47,10 @@ class EnrichmentClient:
         return res
 
     def get_similar_datasets_by_biological_data(self, accession, database):
-        if accession:
+        if not accession:
             return VerifyUtils.empty_param_error("accession")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
         res = requests.get(self.getSimilarDatasetsByBiologicalDataUrl, params={
@@ -60,13 +60,13 @@ class EnrichmentClient:
         return res
 
     def get_similarity_info(self, accession, database, threshold):
-        if accession:
+        if not accession:
             return VerifyUtils.empty_param_error("accession")
 
-        if database:
+        if not database:
             return VerifyUtils.empty_param_error("database")
 
-        if threshold:
+        if not threshold:
             return VerifyUtils.empty_param_error("threshold")
         res = requests.get(self.getSimilarityInfoUrl, params={
             "accession": accession,

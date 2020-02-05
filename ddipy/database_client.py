@@ -14,7 +14,7 @@ class DatabaseClient:
         pass
 
     def get_database_pic(self, database_name):
-        if database_name:
+        if not database_name:
             return VerifyUtils.empty_param_error("database_name")
 
         res = requests.get(self.baseDatabaseUrl + "/" + database_name + "/picture",  headers=self.headers)

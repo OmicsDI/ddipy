@@ -12,7 +12,7 @@ class PublicationClient:
         pass
 
     def get_list(self, acc):
-        if acc:
+        if not acc:
             return VerifyUtils.empty_param_error("acc")
         res = requests.get(self.listUrl, params={"acc": acc}, headers=self.headers)
         return res

@@ -27,7 +27,7 @@ class DbLuceneMappingClient:
         return res
 
     def get_lucene_name(self, db_name):
-        if db_name:
+        if not db_name:
             return VerifyUtils.empty_param_error("dbName")
 
         res = requests.get(self.getLuceneNameUrl, params={
@@ -40,7 +40,7 @@ class DbLuceneMappingClient:
         return res
 
     def get_db_name(self, lucene_name):
-        if lucene_name:
+        if not lucene_name:
             return VerifyUtils.empty_param_error("luceneName")
         res = requests.get(self.getDbNameUrl, params={
             "luceneName": lucene_name
