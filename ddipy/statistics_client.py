@@ -16,13 +16,13 @@ class StatisticsClient:
     def __init__(self):
         pass
 
-    def get_statistics_organisms(self, size):
+    def get_statistics_organisms(self, size=20):
         res = requests.get(self.getStatisticsOrganismsUrl, params={
             "size": size
         }, headers=self.headers)
         return res
 
-    def get_statistics_tissues(self, size):
+    def get_statistics_tissues(self, size=20):
         res = requests.get(self.getStatisticsTissuesUrl, params={
             "size": size
         }, headers=self.headers)
@@ -36,7 +36,7 @@ class StatisticsClient:
         res = requests.get(self.getStatisticsVersionUrl, headers=self.headers)
         return res
 
-    def get_statistics_diseases(self, size):
+    def get_statistics_diseases(self, size=20):
         res = requests.get(self.getStatisticsDiseasesUrl, params={
             "size": size
         }, headers=self.headers)

@@ -1,5 +1,7 @@
 import requests
 
+from ddipy.verify_utils import VerifyUtils
+
 
 class DatasetClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -52,7 +54,7 @@ class DatasetClient:
         res = requests.post(self.mergeUrl, params=request_params, headers=tokened_header)
         return res
 
-    def get_dataset_page(self, start, size):
+    def get_dataset_page(self, start=0, size=20):
         res = requests.get(self.getDatasetPageUrl, params={
             "start": start,
             "size": size
@@ -112,6 +114,10 @@ class DatasetClient:
         return res
 
     def get_dataset_by_url(self, url):
+
+        if not url:
+            return VerifyUtils.empty_param_error("url")
+
         res = requests.post(self.getDatasetByUrlUrl, params={
             "url": url
         }, headers=self.headers)
@@ -153,13 +159,28 @@ class DatasetClient:
         res = requests.post(self.skipMergeUrl, params=request_params, headers=tokened_header)
         return res
 
-    def get_dataset_details(self, domain, accession, debug):
+    def get_dataset_details(self, domain, accession, debug=False):
+        if not domain:
+            return VerifyUtils.empty_param_error("domain")
+
+        if not accession:
+            return VerifyUtils.empty_param_error("accession")
+
         res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession, params={
             "debug": debug
         }, headers=self.headers)
         return res
 
     def get_dataset_files(self, domain, accession, position):
+        if not domain:
+            return VerifyUtils.empty_param_error("domain")
+
+        if not accession:
+            return VerifyUtils.empty_param_error("accession")
+
+        if not position:
+            return VerifyUtils.empty_param_error("position")
+
         res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession + "/files",
                            params={
                                "position": position
@@ -171,24 +192,42 @@ class DatasetClient:
         res = requests.get(self.getDbDatasetCountUrl, headers=self.headers)
         return res
 
-    def search(self, query, sortfield, order, start, size, faceCount):
-        res = requests.get(self.searchUrl, params={
-            "query": query,
-            "sortfield": sortfield,
-            "order": order,
+    def search(self, query="", sortfield="", order="", start=0, size=20, faceCount=20):
+        params = {
             "start": start,
             "size": size,
             "faceCount": faceCount
-        }, headers=self.headers)
+        }
+        print(query)
+        if not query:
+            return VerifyUtils.empty_param_error("query")
+        else:
+            params.update(query=query)
+        if not query:
+            return VerifyUtils.empty_param_error("sortfield")
+        else:
+            params.update(sortfield=sortfield)
+        if not query:
+            return VerifyUtils.empty_param_error("order")
+        else:
+            params.update(order=order)
+
+        res = requests.get(self.searchUrl, params=params, headers=self.headers)
         return res
 
-    def latest(self, size):
+    def latest(self, size=20):
         res = requests.get(self.latestUrl, params={
             "size": size
         }, headers=self.headers)
         return res
 
     def get(self, acc, database):
+        if not acc:
+            return VerifyUtils.empty_param_error("acc")
+
+        if not database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.getUrl, params={
             "acc": acc,
             "database": database
@@ -196,25 +235,40 @@ class DatasetClient:
         return res
 
     def get_similar_by_pubmed(self, pubmed):
+        if not pubmed:
+            return VerifyUtils.empty_param_error("pubmed")
+
         res = requests.get(self.getSimilarByPubmedUrl, params={
             "pubmed": pubmed
         }, headers=self.headers)
         return res
 
     def batch(self, acc, database):
+        if not acc:
+            return VerifyUtils.empty_param_error("acc")
+
+        if not database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.batchUrl, params={
             "acc": acc,
             "database": database
         }, headers=self.headers)
         return res
 
-    def most_accessed(self, size):
+    def most_accessed(self, size=20):
         res = requests.get(self.mostAccessedUrl, params={
             "size": size
         }, headers=self.headers)
         return res
 
     def get_file_links(self, acc, database):
+        if not acc:
+            return VerifyUtils.empty_param_error("acc")
+
+        if not database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.getFileLinksUrl, params={
             "acc": acc,
             "database": database
@@ -222,8 +276,20 @@ class DatasetClient:
         return res
 
     def get_similar(self, acc, database):
+        if not acc:
+            return VerifyUtils.empty_param_error("acc")
+
+        if not database:
+            return VerifyUtils.empty_param_error("database")
+
         res = requests.get(self.getSimilarUrl, params={
             "acc": acc,
             "database": database
         }, headers=self.headers)
         return res
+
+
+if __name__ == '__main__':
+    client = DatasetClient()
+    res = client.search("human")
+    print(res)

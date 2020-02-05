@@ -1,5 +1,7 @@
 import requests
 
+from ddipy.verify_utils import VerifyUtils
+
 
 class PublicationClient:
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -10,6 +12,8 @@ class PublicationClient:
         pass
 
     def get_list(self, acc):
+        if not acc:
+            return VerifyUtils.empty_param_error("acc")
         res = requests.get(self.listUrl, params={"acc": acc}, headers=self.headers)
         return res
 
