@@ -1,19 +1,16 @@
 import requests
+from ddipy import constants
 
 
 class FeedbackClient:
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                             "Chrome/54.0.2840.99 Safari/537.36"}
-    feedbackUrl = "https://www.omicsdi.org/ws/feedback/saveFeedback"
-    getAllFeedbacksUrl = "https://www.omicsdi.org/ws/feedback/getAllFeedbacks"
-    getFeedbackByStatusUrl = "https://www.omicsdi.org/ws/feedback/getFeedbackByStatus"
 
     def __init__(self):
         pass
 
-    def save_feedback(self, searchQuery, satisfied, message, id, userInfo):
+    @staticmethod
+    def save_feedback(search_query, satisfied, message, id, user_info):
         request_params = {
-            "searchQuery": searchQuery,
+            "searchQuery": search_query,
             "satisfied": satisfied,
             "message": message,
             "id": {
@@ -25,15 +22,17 @@ class FeedbackClient:
                 "timestamp": id.timestamp,
                 "new": id.new
             },
-            "userInfo": userInfo
+            "userInfo": user_info
         }
-        res = requests.put(self.feedbackUrl, params=request_params, headers=self.headers)
+        res = requests.put(constants.FEEDBACK_URL, params=request_params, headers=constants.HEADERS)
         return res
 
-    def get_all_feedbacks(self):
-        res = requests.get(self.getAllFeedbacksUrl, headers=self.headers)
+    @staticmethod
+    def get_all_feedbacks():
+        res = requests.get(constants.ALL_FEEDBACK_URL, headers=constants.HEADERS)
         return res
 
-    def get_all_feedbacks_by_status(self, is_satisfied=True):
-        res = requests.get(self.getFeedbackByStatusUrl, params={"isSatisfied": is_satisfied}, headers=self.headers)
+    @staticmethod
+    def get_all_feedbacks_by_status(is_satisfied=True):
+        res = requests.get(constants.FEEDBACK_BY_STATUS_URL, params={"isSatisfied": is_satisfied}, headers=constants.HEADERS)
         return res
