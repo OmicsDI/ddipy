@@ -1,7 +1,7 @@
 import requests
 
 from ddipy import constants
-from ddipy.verify_utils import VerifyUtils
+from ddipy.ddi_utils import VerifyUtils
 
 
 class EnrichmentClient:

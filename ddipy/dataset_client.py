@@ -1,7 +1,8 @@
 import requests
 
 from ddipy import constants
-from ddipy.verify_utils import VerifyUtils
+from ddipy.constants import DATA_NOT_FOUND
+from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
 class DatasetClient:
@@ -159,7 +160,12 @@ class DatasetClient:
         res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession, params={
             "debug": debug
         }, headers=constants.HEADERS)
-        return res
+
+        if res.status_code != 200:
+            raise BadRequest("The request dataset accession {} and database {} thrown connection error".format(accession, domain), res.status_code, payload= None)
+        elif res.status_code == 200 and res.json()['accession'] == "None":
+            raise BadRequest( "The request dataset accession {} and database {} was not found in the server".format(accession, domain), DATA_NOT_FOUND, payload=None)
+        return res.json()
 
     @staticmethod
     def get_dataset_files(domain, accession, position):
