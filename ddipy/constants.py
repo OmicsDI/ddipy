@@ -49,4 +49,7 @@ DATABASE_ALL_URL = "https://www.omicsdi.org/ws/database/all"
 DATABASE_PICTURE_URL = "https://www.omicsdi.org/ws/database/db/picturebyte"
 
 
+DATA_NOT_FOUND = 801
+
+
 
