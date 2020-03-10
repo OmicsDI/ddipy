@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-from ddipy.constants import DATA_NOT_FOUND
 from ddipy.dataset_client import DatasetClient
 from ddipy.ddi_utils import BadRequest
 
