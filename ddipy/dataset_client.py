@@ -1,7 +1,7 @@
 import requests
 
 from ddipy import constants
-from ddipy.constants import DATA_NOT_FOUND
+from ddipy.constants import DATA_NOT_FOUND, HEADERS
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
@@ -28,10 +28,8 @@ class DatasetClient:
             "sourceUrl": source_url,
             "name": name
         }
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] =  access_token
         res = requests.post(constants.MERGE_URL, params=request_params, headers=tokened_header)
         return res
 
@@ -46,19 +44,17 @@ class DatasetClient:
     # todo
     @staticmethod
     def unmerge(merge_candidates, access_token):
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] = access_token
+
         res = requests.post(constants.UNMERGE_URL, params=merge_candidates, headers=tokened_header)
         return res
 
     @staticmethod
     def get_merge_candidates(start, size, access_token):
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] = access_token
         res = requests.get(constants.MERGE_CANDIDATE_URL, params={
             "start": start,
             "size": size
@@ -83,19 +79,15 @@ class DatasetClient:
             "sourceUrl": source_url,
             "name": name
         }
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] = access_token
         res = requests.post(constants.MULTIOMICS_MERGE_URL, params=request_params, headers=tokened_header)
         return res
 
     @staticmethod
     def get_allmerged(access_token):
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] = access_token
         res = requests.get(constants.ALL_MERGE_URL, headers=tokened_header)
         return res
 
@@ -117,10 +109,9 @@ class DatasetClient:
 
     @staticmethod
     def get_merge_candidate_count(access_token):
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] = access_token
+
         res = requests.get(constants.MERGE_CANDIDATE_COUNT_URL, headers=tokened_header)
         return res
 
@@ -142,10 +133,9 @@ class DatasetClient:
             "sourceUrl": source_url,
             "name": name
         }
-        tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
-                                        "like Gecko) "
-                                        "Chrome/54.0.2840.99 Safari/537.36",
-                          "x-auth-token": access_token}
+        tokened_header = HEADERS.copy()
+        tokened_header["x-auth-token"] = access_token
+
         res = requests.post(constants.SKIP_MERGE_URL, params=request_params, headers=tokened_header)
         return res
 
