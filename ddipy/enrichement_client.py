@@ -36,7 +36,7 @@ class EnrichmentClient:
         if not database:
             return VerifyUtils.empty_param_error("database")
 
-        res = requests.get(constants.ENRICHMENT_URL, params={
+        res = requests.get(constants.ENRICHMENT_INFO_URL, params={
             "accession": accession,
             "database": database
         }, headers=constants.HEADERS)
