@@ -20,6 +20,7 @@ setup(
     include_package_data=True,
     platforms="any",
     python_requires='>=3.4',
+    long_description_content_type='text/markdown',
     long_description=readme(),
     install_requires=["requests", "pytest"]
 )
