@@ -1,36 +1,17 @@
 import requests
 
-from ddipy.verify_utils import VerifyUtils
+from ddipy import constants
+from ddipy.constants import DATA_NOT_FOUND
+from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
 class DatasetClient:
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                             "Chrome/54.0.2840.99 Safari/537.36"}
-    baseDatasetUrl = "https://www.omicsdi.org/ws/dataset"
-    mergeUrl = "https://www.omicsdi.org/ws/dataset/merge"
-    getDatasetPageUrl = "https://www.omicsdi.org/ws/dataset/getDatasetPage"
-    unmergeUrl = "https://www.omicsdi.org/ws/dataset/unmerge"
-    getMergeCandidatesUrl = "https://www.omicsdi.org/ws/dataset/getMergeCandidates"
-    multiomicsMergeUrl = "https://www.omicsdi.org/ws/dataset/multiomicsMerge"
-    getAllmergedUrl = "https://www.omicsdi.org/ws/dataset/getAllmerged"
-    getDatasetByUrlUrl = "https://www.omicsdi.org/ws/dataset/getDatasetByUrl"
-    getAllUrl = "https://www.omicsdi.org/ws/dataset/getAll"
-    getMergeCandidateCountUrl = "https://www.omicsdi.org/ws/dataset/getMergeCandidateCount"
-    skipMergeUrl = "https://www.omicsdi.org/ws/dataset/skipMerge"
-    getDbDatasetCountUrl = "https://www.omicsdi.org/ws/dataset/getDbDatasetCount"
-    searchUrl = "https://www.omicsdi.org/ws/dataset/search"
-    latestUrl = "https://www.omicsdi.org/ws/dataset/latest"
-    getUrl = "https://www.omicsdi.org/ws/dataset/get"
-    getSimilarByPubmedUrl = "https://www.omicsdi.org/ws/dataset/getSimilarByPubmed"
-    batchUrl = "https://www.omicsdi.org/ws/dataset/batch"
-    mostAccessedUrl = "https://www.omicsdi.org/ws/dataset/mostAccessed"
-    getFileLinksUrl = "https://www.omicsdi.org/ws/dataset/getFileLinks"
-    getSimilarUrl = "https://www.omicsdi.org/ws/dataset/getSimilar"
 
     def __init__(self):
         pass
 
-    def merge(self, similar_arr, accession, database, source_url, name, access_token):
+    @staticmethod
+    def merge(similar_arr, accession, database, source_url, name, access_token):
         similar_list = []
         for similar in similar_arr:
             temp_dict = {}
@@ -51,37 +32,41 @@ class DatasetClient:
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.post(self.mergeUrl, params=request_params, headers=tokened_header)
+        res = requests.post(constants.MERGE_URL, params=request_params, headers=tokened_header)
         return res
 
-    def get_dataset_page(self, start=0, size=20):
-        res = requests.get(self.getDatasetPageUrl, params={
+    @staticmethod
+    def get_dataset_page(start=0, size=20):
+        res = requests.get(constants.DATASET_PAGE_URL, params={
             "start": start,
             "size": size
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
     # todo
-    def unmerge(self, merge_candidates, access_token):
+    @staticmethod
+    def unmerge(merge_candidates, access_token):
         tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.post(self.unmergeUrl, params=merge_candidates, headers=tokened_header)
+        res = requests.post(constants.UNMERGE_URL, params=merge_candidates, headers=tokened_header)
         return res
 
-    def get_merge_candidates(self, start, size, access_token):
+    @staticmethod
+    def get_merge_candidates(start, size, access_token):
         tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.get(self.getMergeCandidatesUrl, params={
+        res = requests.get(constants.MERGE_CANDIDATE_URL, params={
             "start": start,
             "size": size
         }, headers=tokened_header)
         return res
 
-    def multiomics_merge(self, similar_arr, accession, database, source_url, name, access_token):
+    @staticmethod
+    def multiomics_merge(similar_arr, accession, database, source_url, name, access_token):
         similar_list = []
         for similar in similar_arr:
             temp_dict = {}
@@ -102,40 +87,45 @@ class DatasetClient:
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.post(self.multiomicsMergeUrl, params=request_params, headers=tokened_header)
+        res = requests.post(constants.MULTIOMICS_MERGE_URL, params=request_params, headers=tokened_header)
         return res
 
-    def get_allmerged(self, access_token):
+    @staticmethod
+    def get_allmerged(access_token):
         tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.get(self.getAllmergedUrl, headers=tokened_header)
+        res = requests.get(constants.ALL_MERGE_URL, headers=tokened_header)
         return res
 
-    def get_dataset_by_url(self, url):
+    @staticmethod
+    def get_dataset_by_url(url):
 
         if not url:
             return VerifyUtils.empty_param_error("url")
 
-        res = requests.post(self.getDatasetByUrlUrl, params={
+        res = requests.post(constants.DATASET_URL + "/getDatasetByUrl", params={
             "url": url
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get_all(self):
-        res = requests.get(self.getAllUrl, headers=self.headers)
+    @staticmethod
+    def get_all():
+        res = requests.get(constants.ALL_URL, headers=constants.HEADERS)
         return res
 
-    def get_merge_candidate_count(self, access_token):
+    @staticmethod
+    def get_merge_candidate_count(access_token):
         tokened_header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, "
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.get(self.getMergeCandidateCountUrl, headers=tokened_header)
+        res = requests.get(constants.MERGE_CANDIDATE_COUNT_URL, headers=tokened_header)
         return res
 
-    def skip_merge(self, similar_arr, accession, database, source_url, name, access_token):
+    @staticmethod
+    def skip_merge(similar_arr, accession, database, source_url, name, access_token):
         similar_list = []
         for similar in similar_arr:
             temp_dict = {}
@@ -156,22 +146,29 @@ class DatasetClient:
                                         "like Gecko) "
                                         "Chrome/54.0.2840.99 Safari/537.36",
                           "x-auth-token": access_token}
-        res = requests.post(self.skipMergeUrl, params=request_params, headers=tokened_header)
+        res = requests.post(constants.SKIP_MERGE_URL, params=request_params, headers=tokened_header)
         return res
 
-    def get_dataset_details(self, domain, accession, debug=False):
+    @staticmethod
+    def get_dataset_details(domain, accession, debug=False):
         if not domain:
             return VerifyUtils.empty_param_error("domain")
 
         if not accession:
             return VerifyUtils.empty_param_error("accession")
 
-        res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession, params={
+        res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession, params={
             "debug": debug
-        }, headers=self.headers)
-        return res
+        }, headers=constants.HEADERS)
 
-    def get_dataset_files(self, domain, accession, position):
+        if res.status_code != 200:
+            raise BadRequest("The request dataset accession {} and database {} thrown connection error".format(accession, domain), res.status_code, payload= None)
+        elif res.status_code == 200 and res.json()['accession'] == "None":
+            raise BadRequest( "The request dataset accession {} and database {} was not found in the server".format(accession, domain), DATA_NOT_FOUND, payload=None)
+        return res.json()
+
+    @staticmethod
+    def get_dataset_files(domain, accession, position):
         if not domain:
             return VerifyUtils.empty_param_error("domain")
 
@@ -181,22 +178,24 @@ class DatasetClient:
         if not position:
             return VerifyUtils.empty_param_error("position")
 
-        res = requests.get(self.baseDatasetUrl + "/" + domain + "/" + accession + "/files",
+        res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession + "/files",
                            params={
                                "position": position
                            },
-                           headers=self.headers)
+                           headers=constants.HEADERS)
         return res
 
-    def get_db_dataset_count(self):
-        res = requests.get(self.getDbDatasetCountUrl, headers=self.headers)
+    @staticmethod
+    def get_db_dataset_count():
+        res = requests.get(constants.DB_DATABASE_COUNT_URL, headers=constants.HEADERS)
         return res
 
-    def search(self, query="", sortfield="", order="", start=0, size=20, faceCount=20):
+    @staticmethod
+    def search(query="", sortfield="", order="", start=0, size=20, face_count=20):
         params = {
             "start": start,
             "size": size,
-            "faceCount": faceCount
+            "faceCount": face_count
         }
         print(query)
         if not query:
@@ -212,80 +211,87 @@ class DatasetClient:
         else:
             params.update(order=order)
 
-        res = requests.get(self.searchUrl, params=params, headers=self.headers)
+        res = requests.get(constants.SEARCH_URL, params=params, headers=constants.HEADERS)
         return res
 
-    def latest(self, size=20):
-        res = requests.get(self.latestUrl, params={
+    @staticmethod
+    def latest(size=20):
+        res = requests.get(constants.LATEST_URL, params={
             "size": size
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get(self, acc, database):
+    @staticmethod
+    def get(acc, database):
         if not acc:
             return VerifyUtils.empty_param_error("acc")
 
         if not database:
             return VerifyUtils.empty_param_error("database")
 
-        res = requests.get(self.getUrl, params={
+        res = requests.get(constants.GET_URL, params={
             "acc": acc,
             "database": database
-        }, headers=self.headers)
-        return res
+        }, headers=constants.HEADERS)
+        return res.json()
 
-    def get_similar_by_pubmed(self, pubmed):
+    @staticmethod
+    def get_similar_by_pubmed(pubmed):
         if not pubmed:
             return VerifyUtils.empty_param_error("pubmed")
 
-        res = requests.get(self.getSimilarByPubmedUrl, params={
+        res = requests.get(constants.DATASET_URL + "/getSimilarByPubmed", params={
             "pubmed": pubmed
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def batch(self, acc, database):
+    @staticmethod
+    def batch(acc, database):
         if not acc:
             return VerifyUtils.empty_param_error("acc")
 
         if not database:
             return VerifyUtils.empty_param_error("database")
 
-        res = requests.get(self.batchUrl, params={
+        res = requests.get(constants.BATCH_URL, params={
             "acc": acc,
             "database": database
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def most_accessed(self, size=20):
-        res = requests.get(self.mostAccessedUrl, params={
+    @staticmethod
+    def most_accessed(size=20):
+        res = requests.get(constants.MOST_ACCESSED_DATASETS, params={
             "size": size
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get_file_links(self, acc, database):
+    @staticmethod
+    def get_file_links(acc, database):
         if not acc:
             return VerifyUtils.empty_param_error("acc")
 
         if not database:
             return VerifyUtils.empty_param_error("database")
 
-        res = requests.get(self.getFileLinksUrl, params={
+        res = requests.get(constants.FILE_LINKS_URL, params={
             "acc": acc,
             "database": database
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get_similar(self, acc, database):
+    @staticmethod
+    def get_similar(acc, database):
         if not acc:
             return VerifyUtils.empty_param_error("acc")
 
         if not database:
             return VerifyUtils.empty_param_error("database")
 
-        res = requests.get(self.getSimilarUrl, params={
+        res = requests.get(constants.SIMILAR_URL, params={
             "acc": acc,
             "database": database
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
 

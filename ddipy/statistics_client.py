@@ -1,57 +1,47 @@
 import requests
 
+from ddipy import constants
+
 
 class StatisticsClient:
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                             "Chrome/54.0.2840.99 Safari/537.36"}
-    getStatisticsOrganismsUrl = "https://www.omicsdi.org/ws/statistics/organisms"
-    getStatisticsTissuesUrl = "https://www.omicsdi.org/ws/statistics/tissues"
-    getStatisticsOmicsUrl = "https://www.omicsdi.org/ws/statistics/omics"
-    getStatisticsVersionUrl = "https://www.omicsdi.org/ws/statistics/version"
-    getStatisticsDiseasesUrl = "https://www.omicsdi.org/ws/statistics/diseases"
-    getStatisticsDomainsUrl = "https://www.omicsdi.org/ws/statistics/domains"
-    getStatisticsOmicsByYearUrl = "https://www.omicsdi.org/ws/statistics/omicsByYear"
-    getStatisticsGeneralUrl = "https://www.omicsdi.org/ws/statistics/general"
 
     def __init__(self):
         pass
 
-    def get_statistics_organisms(self, size=20):
-        res = requests.get(self.getStatisticsOrganismsUrl, params={
+    @staticmethod
+    def get_statistics_organisms(size=20):
+        res = requests.get(constants.STATISTICS_URL + "/organisms", params={
             "size": size
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get_statistics_tissues(self, size=20):
-        res = requests.get(self.getStatisticsTissuesUrl, params={
+    @staticmethod
+    def get_statistics_tissues(size=20):
+        res = requests.get(constants.STATISTICS_URL + "/tissues", params={
             "size": size
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get_statistics_omics(self):
-        res = requests.get(self.getStatisticsOmicsUrl, headers=self.headers)
+    @staticmethod
+    def get_statistics_omics():
+        res = requests.get(constants.STATISTICS_URL + "/omics", headers=constants.HEADERS)
         return res
 
-    def get_statistics_version(self):
-        res = requests.get(self.getStatisticsVersionUrl, headers=self.headers)
-        return res
-
-    def get_statistics_diseases(self, size=20):
-        res = requests.get(self.getStatisticsDiseasesUrl, params={
+    @staticmethod
+    def get_statistics_diseases(size=20):
+        res = requests.get(constants.STATISTICS_URL + "/diseases", params={
             "size": size
-        }, headers=self.headers)
+        }, headers=constants.HEADERS)
         return res
 
-    def get_statistics_domains(self):
-        res = requests.get(self.getStatisticsDomainsUrl, headers=self.headers)
+    @staticmethod
+    def get_statistics_domains():
+        res = requests.get(constants.STATISTICS_URL + "/domains", headers=constants.HEADERS)
         return res
 
-    def get_statistics_omics_by_year(self):
-        res = requests.get(self.getStatisticsOmicsByYearUrl, headers=self.headers)
-        return res
-
-    def get_statistics_general(self):
-        res = requests.get(self.getStatisticsGeneralUrl, headers=self.headers)
+    @staticmethod
+    def get_statistics_omics_by_year():
+        res = requests.get(constants.STATISTICS_URL + "/omicsByYear", headers=constants.HEADERS)
         return res
 
 

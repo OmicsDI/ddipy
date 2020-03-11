@@ -1,17 +1,25 @@
 from setuptools import setup, find_packages
 
+
+def readme():
+    with open('README.md') as f:
+        return f.read()
+
+
 setup(
     name="ddipy",
-    version="0.0.1",
+    version="0.0.3",
     keywords=["pip", "omicsDI", "WS-client"],
     py_modules=["ddipy"],
-    description="web-service client of omicsDI API",
-    license="MIT Licence",
-    url="https://github.com/OmicsDI/Pyddi",
-    author="Xpon",
-    author_email="hll3939092@gmail.com",
+    description="Python client for OmicsDI Restful API",
+    license='LICENSE',
+    url="https://github.com/OmicsDI/ddipy",
+    author="OmicsDI Team",
+    author_email="ypriverol@gmail.com",
     packages=find_packages(),
     include_package_data=True,
     platforms="any",
-    install_requires=["requests"]
+    python_requires='>=3.4',
+    long_description=readme(),
+    install_requires=["requests", "pytest"]
 )
