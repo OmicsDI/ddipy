@@ -1,7 +1,8 @@
 import requests
 
 from ddipy import constants
-from ddipy.ddi_utils import VerifyUtils
+from ddipy.constants import DATA_NOT_FOUND
+from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
 class TermClient:
@@ -15,6 +16,10 @@ class TermClient:
             "q": q,
             "size": size
         }, headers=constants.HEADERS)
+        if res.status_code != 200:
+            raise BadRequest("The request query {} and size {} thrown connection error".format(q, size), res.status_code, payload=None)
+        if res.status_code == 200 and res.json()["total_count"] ==0:
+            raise BadRequest("The request found nothing in server", DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
@@ -30,4 +35,9 @@ class TermClient:
             "domain": domain,
             "field": field
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request domain {} and field {} and size {} thrown connection error".format(domain, field, size), res.status_code, payload=None)
+        if res.status_code == 200 and len(res.json()) == 0:
+            raise BadRequest("The request found nothing in server", DATA_NOT_FOUND, payload=None)
         return res
