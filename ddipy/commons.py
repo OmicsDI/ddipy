@@ -38,10 +38,21 @@ class DatasetSummary():
 
 class Dataset(DatasetSummary):
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, organisms: list, cross_references: dict, files: list) -> None:
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, organisms: list, cross_references: dict, files: list, additional: dict) -> None:
         super().__init__(accession, database, title, description, dates, scores, keywords, omics_type, organisms)
         self.cross_references = cross_references
         self.files = files
+        self.additional = additional
+
+    def get_posttranslational_modifications(self):
+        """
+        Return the PTMs for proteomics experiments. If no PTMs are annotated, return an empty List
+        :return: List of Post-translational modifications
+        """
+        ptms = []
+        if self.additional is not None:
+            ptms = self.additional['modification']
+        return ptms
 
     @staticmethod
     def get_object_from_json(json_object: json):
@@ -124,6 +135,9 @@ class Dataset(DatasetSummary):
         elif 'additional' in json_object and 'species' in json_object['additional']:
             organisms = json_object['additional']['species']
 
+        additional = {}
+        if 'additional' in json_object:
+            additional = json_object['additional']
 
-        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, organisms, cross_references, files)
+        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, organisms, cross_references, files, additional)
         return dataset

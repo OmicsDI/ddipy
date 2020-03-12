@@ -19,4 +19,5 @@ class TestDataset(TestCase):
         assert len(dataset.cross_references) > 0
         assert len(dataset.keywords) > 0
         assert len(dataset.organisms) > 0
+        assert len(dataset.get_posttranslational_modifications()) == 7
 
