@@ -23,7 +23,7 @@ DOWNLOAD_SCALED_COUNT = "downloadCountScaled"
 
 class DatasetSummary():
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict) -> None:
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list ) -> None:
         super().__init__()
         self.accession = accession
         self.database = database
@@ -31,17 +31,24 @@ class DatasetSummary():
         self.description = description
         self.dates = dates
         self.scores = scores
+        self.keywords = keywords
+        self.omics_type = omics_type
 
 
 class Dataset(DatasetSummary):
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict) -> None:
-        super().__init__(accession, database, title, description, dates, scores)
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, cross_references: dict) -> None:
+        super().__init__(accession, database, title, description, dates, scores, keywords, omics_type)
+        self.cross_references = cross_references
 
     @staticmethod
     def get_object_from_json(json_object: json):
+
         accession = None
         database = None
+        title = None
+        description = None
+
         if 'accession' in json_object:
             accession = json_object['accession']
         elif 'id' in json_object:
@@ -88,5 +95,21 @@ class Dataset(DatasetSummary):
         if 'viewCount' in json_object['scores']:
             scores[VIEW_COUNT] = old_scores['viewCount']
 
-        dataset = Dataset(accession, database, title, description, dates, scores)
+        cross_references = {}
+        if 'cross_references' in json_object:
+            cross_references = json_object['cross_references']
+
+        keywords = []
+        if 'keywords' in json_object:
+            keywords = json_object['keywords']
+        elif 'additional' in json_object and 'submitter_keywords' in json_object['additional']:
+            keywords = json_object['additional']['submitter_keywords']
+
+        omics_type = []
+        if 'omicsType' in json_object:
+           omics_type = json_object['omicsType']
+        elif 'additional' in json_object and 'omics_type' in json_object['additional']:
+            omics_type = json_object['additional']['omics_type']
+
+        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, cross_references)
         return dataset
