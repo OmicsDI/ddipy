@@ -3,21 +3,25 @@ import json
 from ddipy.constants import BAD_DATASET_OBJECT
 from ddipy.ddi_utils import BadRequest
 
+PUBLICATION_DATE = 'publication'
+SUBMISSION_DATE  = 'submission'
+UPDATE_DATE      = 'update'
 
 class DatasetSummary():
 
-    def __init__(self, accession: str, database: str, title: str, description: str) -> None:
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict) -> None:
         super().__init__()
         self.accession = accession
         self.database = database
         self.title = title
         self.description = description
+        self.dates = dates
 
 
 class Dataset(DatasetSummary):
 
-    def __init__(self, accession: str, database: str, title: str , description: str) -> None:
-        super().__init__(accession, database, title ,description)
+    def __init__(self, accession: str, database: str, title: str , description: str, dates: dict) -> None:
+        super().__init__(accession, database, title, description, dates)
 
     @staticmethod
     def get_object_from_json(json_object: json):
@@ -45,5 +49,14 @@ class Dataset(DatasetSummary):
             raise BadRequest("The present dataset do not contains accession or database {}".format(json_object),
                              BAD_DATASET_OBJECT,
                              None)
-        dataset = Dataset(accession, database, title, description)
+        dates = {}
+        if 'dates' in json_object:
+            if 'publication' in json_object['dates']:
+                dates[PUBLICATION_DATE] = json_object['dates']['publication']
+            if 'submission' in json_object['dates']:
+                dates[SUBMISSION_DATE] = json_object['dates']['submission']
+        if 'publicationDate' in json_object:
+            dates[PUBLICATION_DATE] = json_object['dates']['publication']
+
+        dataset = Dataset(accession, database, title, description, dates)
         return dataset

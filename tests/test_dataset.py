@@ -13,3 +13,4 @@ class TestDataset(TestCase):
         dataset = Dataset.get_object_from_json(object_json)
         assert dataset.accession == "PXD000210"
         assert dataset.title == "Proteome analysis by charge state-selective separation of peptides: a multidimensional approach"
+        assert len(dataset.dates) > 0
