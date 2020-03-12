@@ -14,3 +14,5 @@ class TestDataset(TestCase):
         assert dataset.accession == "PXD000210"
         assert dataset.title == "Proteome analysis by charge state-selective separation of peptides: a multidimensional approach"
         assert len(dataset.dates) > 0
+        assert len(dataset.scores) > 0
+
