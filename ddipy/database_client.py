@@ -20,7 +20,7 @@ class DatabaseClient:
     @staticmethod
     def get_database_all():
         res = requests.get(constants.DATABASE_ALL_URL, headers=constants.HEADERS)
-        return res
+        return res.json()
 
     @staticmethod
     def get_database_db_picturebyte():

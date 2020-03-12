@@ -10,7 +10,7 @@ class TermClient:
         pass
 
     @staticmethod
-    def get_term_by_pattern(q="*:*", size=10):
+    def get_term_by_pattern(q="hom", size=10):
         res = requests.get(constants.TERM_BY_PATTERN_URL, params={
             "q": q,
             "size": size

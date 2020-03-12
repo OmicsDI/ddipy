@@ -187,7 +187,6 @@ class DatasetClient:
             "size": size,
             "faceCount": face_count
         }
-        print(query)
         if not query:
             return VerifyUtils.empty_param_error("query")
         else:
