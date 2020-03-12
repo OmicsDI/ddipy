@@ -18,4 +18,5 @@ class TestDataset(TestCase):
         assert len(dataset.scores) > 0
         assert len(dataset.cross_references) > 0
         assert len(dataset.keywords) > 0
+        assert len(dataset.organisms) > 0
 

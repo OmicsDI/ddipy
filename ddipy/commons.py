@@ -23,7 +23,7 @@ DOWNLOAD_SCALED_COUNT = "downloadCountScaled"
 
 class DatasetSummary():
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list ) -> None:
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, organisms: list) -> None:
         super().__init__()
         self.accession = accession
         self.database = database
@@ -33,13 +33,15 @@ class DatasetSummary():
         self.scores = scores
         self.keywords = keywords
         self.omics_type = omics_type
+        self.organisms = organisms
 
 
 class Dataset(DatasetSummary):
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, cross_references: dict) -> None:
-        super().__init__(accession, database, title, description, dates, scores, keywords, omics_type)
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, organisms: list, cross_references: dict, files: list) -> None:
+        super().__init__(accession, database, title, description, dates, scores, keywords, omics_type, organisms)
         self.cross_references = cross_references
+        self.files = files
 
     @staticmethod
     def get_object_from_json(json_object: json):
@@ -111,5 +113,17 @@ class Dataset(DatasetSummary):
         elif 'additional' in json_object and 'omics_type' in json_object['additional']:
             omics_type = json_object['additional']['omics_type']
 
-        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, cross_references)
+        files = []
+        if 'file_versions' in json_object:
+            files = json_object['file_versions']
+
+        organisms = []
+        if 'organisms' in json_object:
+            for organism in json_object['organisms']:
+                organisms.append(organisms['name'])
+        elif 'additional' in json_object and 'species' in json_object['additional']:
+            organisms = json_object['additional']['species']
+
+
+        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, organisms, cross_references, files)
         return dataset
