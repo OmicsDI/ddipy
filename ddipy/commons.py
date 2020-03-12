@@ -50,9 +50,19 @@ class Dataset(DatasetSummary):
         :return: List of Post-translational modifications
         """
         ptms = []
-        if self.additional is not None:
-            ptms = self.additional['modification']
+        if self.additional is not None and 'modification' in self.additional:
+            ptms = [x for x in self.additional['modification'] if x not in ['Not Available']]
         return ptms
+
+    def get_diseases(self):
+        """
+        Return the Diseases for dataset. If not disease are annotated, return an empty List
+        :return:
+        """
+        diseases = []
+        if self.additional is not None and 'disease':
+            diseases = [x for x in self.additional['disease'] if x not in ['Not Available']]
+        return diseases
 
     @staticmethod
     def get_object_from_json(json_object: json):

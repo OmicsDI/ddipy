@@ -21,3 +21,5 @@ class TestDataset(TestCase):
         assert len(dataset.organisms) > 0
         assert len(dataset.get_posttranslational_modifications()) == 7
 
+        assert len(dataset.get_diseases()) == 0
+
