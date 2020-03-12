@@ -54,8 +54,8 @@ TERM_URL = WS_URL + "/term"
 TERM_BY_PATTERN_URL = TERM_URL + "/getTermByPattern"
 FREQUENTLY_TERM_URL = TERM_URL + "/frequentlyTerm/list"
 DATABASE_URL = WS_URL + "/database"
-DATABASE_ALL_URL = DATASET_URL + "/all"
-DATABASE_PICTURE_URL = DATASET_URL + "/db/picturebyte"
+DATABASE_ALL_URL = DATABASE_URL + "/all"
+DATABASE_PICTURE_URL = DATABASE_URL + "/db/picturebyte"
 
 
 DATA_NOT_FOUND = 801

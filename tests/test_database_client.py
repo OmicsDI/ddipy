@@ -8,8 +8,6 @@ class TestDatabaseClient(TestCase):
 
     def test_get_database_all(self):
         client = DatabaseClient()
-        try:
-            res = client.get_database_all()
-            assert len(res) > 0
-        except BadRequest as arr:
-            assert arr.status == 500
+        res = client.get_database_all()
+        assert res.status_code == 200
+
