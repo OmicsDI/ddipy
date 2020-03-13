@@ -1,6 +1,8 @@
 import requests
 
 from ddipy import constants
+from ddipy.constants import DATA_NOT_FOUND
+from ddipy.ddi_utils import BadRequest
 
 
 class StatisticsClient:
@@ -13,6 +15,8 @@ class StatisticsClient:
         res = requests.get(constants.STATISTICS_URL + "/organisms", params={
             "size": size
         }, headers=constants.HEADERS)
+        if res.status_code != 200:
+            raise BadRequest("The request size {} thrown connection error".format(size), res.status_code, payload=None)
         return res
 
     @staticmethod

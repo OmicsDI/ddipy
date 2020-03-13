@@ -187,7 +187,6 @@ class DatasetClient:
             "size": size,
             "faceCount": face_count
         }
-        print(query)
         if not query:
             return VerifyUtils.empty_param_error("query")
         else:
@@ -202,6 +201,10 @@ class DatasetClient:
             params.update(order=order)
 
         res = requests.get(constants.SEARCH_URL, params=params, headers=constants.HEADERS)
+        if res.status_code != 200:
+            raise BadRequest("The request query {} and sortfield {} and order {} thrown connection error".format(query, sortfield, order), res.status_code, payload= None)
+        if res.status_code == 200 and res.json()["count"] <= 0:
+            raise BadRequest("The request query {} and sortfield {} and order {} found nothing in the server".format(query, sortfield, order), DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
@@ -209,6 +212,11 @@ class DatasetClient:
         res = requests.get(constants.LATEST_URL, params={
             "size": size
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request thrown connection error", res.status_code, payload=None)
+        if res.status_code == 200 and len(res.json()["datasets"]) <= 0:
+            raise BadRequest("The request found nothing in the server", DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
@@ -233,6 +241,12 @@ class DatasetClient:
         res = requests.get(constants.DATASET_URL + "/getSimilarByPubmed", params={
             "pubmed": pubmed
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request pubmed {} thrown connection error".format(pubmed), res.status_code, payload=None)
+        if res.status_code == 200 and len(res.json()) <= 0:
+            raise BadRequest("The request pubmed {} found nothing in the server".format(pubmed), DATA_NOT_FOUND, payload=None)
+
         return res
 
     @staticmethod
@@ -247,6 +261,11 @@ class DatasetClient:
             "acc": acc,
             "database": database
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
+        if res.status_code == 200 and len(res.json()["datasets"]) <= 0:
+            raise BadRequest("The request accession {} and database {} found nothing in the server".format(acc, database), DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
@@ -254,6 +273,12 @@ class DatasetClient:
         res = requests.get(constants.MOST_ACCESSED_DATASETS, params={
             "size": size
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request thrown connection error", res.status_code, payload=None)
+        if res.status_code == 200 and res.json()["count"] <= 0:
+            raise BadRequest("The request found nothing in the server", DATA_NOT_FOUND, payload=None)
+
         return res
 
     @staticmethod
@@ -268,6 +293,11 @@ class DatasetClient:
             "acc": acc,
             "database": database
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
+        if res.status_code == 200 and res.json() == []:
+            raise BadRequest("The request accession {} and database {} found nothing in the server".format(acc, database), DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
@@ -282,6 +312,9 @@ class DatasetClient:
             "acc": acc,
             "database": database
         }, headers=constants.HEADERS)
+
+        if res.status_code != 200:
+            raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
         return res
 
 

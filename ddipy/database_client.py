@@ -1,7 +1,8 @@
 import requests
 
 from ddipy import constants
-from ddipy.ddi_utils import VerifyUtils
+from ddipy.constants import DATA_NOT_FOUND
+from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
 class DatabaseClient:
@@ -20,6 +21,8 @@ class DatabaseClient:
     @staticmethod
     def get_database_all():
         res = requests.get(constants.DATABASE_ALL_URL, headers=constants.HEADERS)
+        if res.status_code != 200:
+            raise BadRequest("The request thrown connection error", res.status_code, payload=None)
         return res
 
     @staticmethod
