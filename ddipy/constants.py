@@ -1,5 +1,5 @@
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"}
+HEADERS = {"User-Agent": "ddipy/0.0.3"}
 WS_URL = "https://www.omicsdi.org/ws/"
 DATASET_URL = WS_URL + "/dataset"
 MERGE_URL = DATASET_URL + "/merge"
