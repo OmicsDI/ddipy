@@ -1,7 +1,6 @@
 import requests
 
 from ddipy import constants
-from ddipy.constants import DATA_NOT_FOUND
 from ddipy.ddi_utils import BadRequest
 
 

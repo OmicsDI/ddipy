@@ -1,6 +1,7 @@
 import requests
 
 from ddipy import constants
+from ddipy.constants import MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
@@ -33,10 +34,10 @@ class SeoClient:
     @staticmethod
     def get_seo_schema(acc, domain):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
 
         if not domain:
-            return VerifyUtils.empty_param_error("domain")
+            raise BadRequest("missing parameter domain", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.SEO_SCHEMA_URL + "/" + domain + "/" + acc, headers=constants.HEADERS)
 
@@ -52,10 +53,10 @@ class SeoClient:
     @staticmethod
     def get_seo_dataset(domain, acc):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
 
         if not domain:
-            return VerifyUtils.empty_param_error("domain")
+            raise BadRequest("missing parameter domain", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.SEO_DATASET_URL + "/" + domain + "/" + acc, headers=constants.HEADERS)
 

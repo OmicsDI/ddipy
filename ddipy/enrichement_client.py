@@ -1,7 +1,8 @@
 import requests
 
 from ddipy import constants
-from ddipy.ddi_utils import VerifyUtils
+from ddipy.constants import MISSING_PARAMETER
+from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
 class EnrichmentClient:
@@ -12,10 +13,10 @@ class EnrichmentClient:
     @staticmethod
     def get_synonyms_for_dataset(accession, database):
         if not accession:
-            return VerifyUtils.empty_param_error("accession")
+            raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.SYNONYMS_URL, params={
             "accession": accession,
@@ -31,10 +32,10 @@ class EnrichmentClient:
     @staticmethod
     def get_enrichment_info(accession, database):
         if not accession:
-            return VerifyUtils.empty_param_error("accession")
+            raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.ENRICHMENT_INFO_URL, params={
             "accession": accession,
@@ -45,10 +46,10 @@ class EnrichmentClient:
     @staticmethod
     def get_similar_datasets_by_biological_data(accession, database):
         if not accession:
-            return VerifyUtils.empty_param_error("accession")
+            raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.SIMILAR_DATASETS_BIOLOGY_URL, params={
             "accession": accession,
@@ -59,13 +60,13 @@ class EnrichmentClient:
     @staticmethod
     def get_similarity_info(accession, database, threshold):
         if not accession:
-            return VerifyUtils.empty_param_error("accession")
+            raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         if not threshold:
-            return VerifyUtils.empty_param_error("threshold")
+            raise BadRequest("missing parameter threshold", MISSING_PARAMETER, payload=None)
         res = requests.get(constants.SIMILAR_INFO_URL, params={
             "accession": accession,
             "database": database,

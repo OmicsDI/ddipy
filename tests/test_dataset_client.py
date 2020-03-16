@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from ddipy.constants import DATA_NOT_FOUND
+from ddipy.constants import DATA_NOT_FOUND, MISSING_PARAMETER
 from ddipy.dataset_client import DatasetClient
 from ddipy.ddi_utils import BadRequest
 
@@ -23,6 +23,11 @@ class TestDatasetClient(TestCase):
         except BadRequest as err:
             assert err.status == 500
 
+        try:
+            dataset = client.get_dataset_details(None, "pride")
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER
+
     def test_search(self):
 
         client = DatasetClient()
@@ -33,6 +38,11 @@ class TestDatasetClient(TestCase):
             dataset = client.search("j9j9j9j9@£", "publication_date", "ascending")
         except BadRequest as err:
             assert err.status == DATA_NOT_FOUND
+
+        try:
+            dataset = client.search(None, "publication_date", "ascending")
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER
 
 
 
@@ -47,6 +57,11 @@ class TestDatasetClient(TestCase):
             client.batch("gulugulu11", "momomomomo")
         except BadRequest as err:
             assert err.status == DATA_NOT_FOUND
+
+        try:
+            client.batch(None, "momomomomo")
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER
 
 
     def test_latest(self):
@@ -87,6 +102,11 @@ class TestDatasetClient(TestCase):
         except BadRequest as err:
             assert err.status == DATA_NOT_FOUND
 
+        try:
+            res = client.get_file_links(None, "pride")
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER
+
     def test_get_similar(self):
         client = DatasetClient()
 
@@ -98,6 +118,11 @@ class TestDatasetClient(TestCase):
         except BadRequest as err:
             assert err.status == 500
 
+        try:
+            res = client.get_similar(None, "pride")
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER
+
     def test_get_similar_by_pubmed(self):
         client = DatasetClient()
 
@@ -108,3 +133,8 @@ class TestDatasetClient(TestCase):
             res = client.get_similar_by_pubmed("qq9q9")
         except BadRequest as err:
             assert err.status == DATA_NOT_FOUND
+
+        try:
+            res = client.get_similar_by_pubmed(None)
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER

@@ -1,7 +1,8 @@
 import requests
 
 from ddipy import constants
-from ddipy.ddi_utils import VerifyUtils
+from ddipy.constants import MISSING_PARAMETER
+from ddipy.ddi_utils import BadRequest
 
 
 class PublicationClient:
@@ -12,6 +13,6 @@ class PublicationClient:
     @staticmethod
     def get_list(acc):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
         res = requests.get(constants.LIST_URL, params={"acc": acc}, headers=constants.HEADERS)
         return res

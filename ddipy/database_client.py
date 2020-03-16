@@ -1,7 +1,7 @@
 import requests
 
 from ddipy import constants
-from ddipy.constants import DATA_NOT_FOUND
+from ddipy.constants import DATA_NOT_FOUND, MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
@@ -13,7 +13,7 @@ class DatabaseClient:
     @staticmethod
     def get_database_pic(database_name):
         if not database_name:
-            return VerifyUtils.empty_param_error("database_name")
+            raise BadRequest("missing parameter database_name", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.DATABASE_URL + "/" + database_name + "/picture", headers=constants.HEADERS)
         return res
