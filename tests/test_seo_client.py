@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from ddipy.constants import MISSING_PARAMETER
 from ddipy.ddi_utils import BadRequest
 from ddipy.seo_client import SeoClient
 
@@ -34,6 +35,11 @@ class TestSeoClient(TestCase):
             res = client.get_seo_dataset("pride", "PXDqqqqqqqq")
         except BadRequest as err:
             assert err.status == 500
+
+        try:
+            res = client.get_seo_dataset(None, "PXDqqqqqqqq")
+        except BadRequest as err:
+            assert err.status == MISSING_PARAMETER
 
     def test_seo_about(self):
         client = SeoClient()

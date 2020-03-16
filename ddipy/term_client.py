@@ -1,7 +1,7 @@
 import requests
 
 from ddipy import constants
-from ddipy.constants import DATA_NOT_FOUND
+from ddipy.constants import DATA_NOT_FOUND, MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
@@ -25,10 +25,10 @@ class TermClient:
     @staticmethod
     def get_term_frequently_term_list(domain, field, size=20):
         if not domain:
-            return VerifyUtils.empty_param_error("domain")
+            raise BadRequest("missing parameter domain", MISSING_PARAMETER, payload=None)
 
         if not field:
-            return VerifyUtils.empty_param_error("field")
+            raise BadRequest("missing parameter field", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.FREQUENTLY_TERM_URL, params={
             "size": size,
@@ -38,6 +38,4 @@ class TermClient:
 
         if res.status_code != 200:
             raise BadRequest("The request domain {} and field {} and size {} thrown connection error".format(domain, field, size), res.status_code, payload=None)
-        if res.status_code == 200 and len(res.json()) == 0:
-            raise BadRequest("The request found nothing in server", DATA_NOT_FOUND, payload=None)
         return res

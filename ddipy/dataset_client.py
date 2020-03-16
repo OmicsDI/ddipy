@@ -1,7 +1,7 @@
 import requests
 
 from ddipy import constants
-from ddipy.constants import DATA_NOT_FOUND, HEADERS
+from ddipy.constants import DATA_NOT_FOUND, HEADERS, MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
@@ -95,7 +95,7 @@ class DatasetClient:
     def get_dataset_by_url(url):
 
         if not url:
-            return VerifyUtils.empty_param_error("url")
+            raise BadRequest("missing parameter url", MISSING_PARAMETER, payload=None)
 
         res = requests.post(constants.DATASET_URL + "/getDatasetByUrl", params={
             "url": url
@@ -142,10 +142,10 @@ class DatasetClient:
     @staticmethod
     def get_dataset_details(domain, accession, debug=False):
         if not domain:
-            return VerifyUtils.empty_param_error("domain")
+            raise BadRequest("missing parameter domain", MISSING_PARAMETER, payload=None)
 
         if not accession:
-            return VerifyUtils.empty_param_error("accession")
+            raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession, params={
             "debug": debug
@@ -153,20 +153,19 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request dataset accession {} and database {} thrown connection error".format(accession, domain), res.status_code, payload= None)
-        elif res.status_code == 200 and res.json()['accession'] == "None":
-            raise BadRequest( "The request dataset accession {} and database {} was not found in the server".format(accession, domain), DATA_NOT_FOUND, payload=None)
+
         return res.json()
 
     @staticmethod
     def get_dataset_files(domain, accession, position):
         if not domain:
-            return VerifyUtils.empty_param_error("domain")
+            raise BadRequest("missing parameter domain", MISSING_PARAMETER, payload=None)
 
         if not accession:
-            return VerifyUtils.empty_param_error("accession")
+            raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
         if not position:
-            return VerifyUtils.empty_param_error("position")
+            raise BadRequest("missing parameter position", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession + "/files",
                            params={
@@ -188,23 +187,22 @@ class DatasetClient:
             "faceCount": face_count
         }
         if not query:
-            return VerifyUtils.empty_param_error("query")
+            raise BadRequest("missing parameter query", MISSING_PARAMETER, payload=None)
         else:
             params.update(query=query)
-        if not query:
-            return VerifyUtils.empty_param_error("sortfield")
+        if not sortfield:
+            raise BadRequest("missing parameter sortfield", MISSING_PARAMETER, payload=None)
         else:
             params.update(sortfield=sortfield)
-        if not query:
-            return VerifyUtils.empty_param_error("order")
+        if not order:
+            raise BadRequest("missing parameter order", MISSING_PARAMETER, payload=None)
         else:
             params.update(order=order)
 
         res = requests.get(constants.SEARCH_URL, params=params, headers=constants.HEADERS)
         if res.status_code != 200:
             raise BadRequest("The request query {} and sortfield {} and order {} thrown connection error".format(query, sortfield, order), res.status_code, payload= None)
-        if res.status_code == 200 and res.json()["count"] <= 0:
-            raise BadRequest("The request query {} and sortfield {} and order {} found nothing in the server".format(query, sortfield, order), DATA_NOT_FOUND, payload=None)
+
         return res
 
     @staticmethod
@@ -215,17 +213,15 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        if res.status_code == 200 and len(res.json()["datasets"]) <= 0:
-            raise BadRequest("The request found nothing in the server", DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
     def get(acc, database):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.GET_URL, params={
             "acc": acc,
@@ -236,7 +232,7 @@ class DatasetClient:
     @staticmethod
     def get_similar_by_pubmed(pubmed):
         if not pubmed:
-            return VerifyUtils.empty_param_error("pubmed")
+            raise BadRequest("missing parameter pubmed", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.DATASET_URL + "/getSimilarByPubmed", params={
             "pubmed": pubmed
@@ -244,18 +240,16 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request pubmed {} thrown connection error".format(pubmed), res.status_code, payload=None)
-        if res.status_code == 200 and len(res.json()) <= 0:
-            raise BadRequest("The request pubmed {} found nothing in the server".format(pubmed), DATA_NOT_FOUND, payload=None)
 
         return res
 
     @staticmethod
     def batch(acc, database):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.BATCH_URL, params={
             "acc": acc,
@@ -264,8 +258,6 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
-        if res.status_code == 200 and len(res.json()["datasets"]) <= 0:
-            raise BadRequest("The request accession {} and database {} found nothing in the server".format(acc, database), DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
@@ -276,18 +268,16 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        if res.status_code == 200 and res.json()["count"] <= 0:
-            raise BadRequest("The request found nothing in the server", DATA_NOT_FOUND, payload=None)
 
         return res
 
     @staticmethod
     def get_file_links(acc, database):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.FILE_LINKS_URL, params={
             "acc": acc,
@@ -296,17 +286,15 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
-        if res.status_code == 200 and res.json() == []:
-            raise BadRequest("The request accession {} and database {} found nothing in the server".format(acc, database), DATA_NOT_FOUND, payload=None)
         return res
 
     @staticmethod
     def get_similar(acc, database):
         if not acc:
-            return VerifyUtils.empty_param_error("acc")
+            raise BadRequest("missing parameter acc", MISSING_PARAMETER, payload=None)
 
         if not database:
-            return VerifyUtils.empty_param_error("database")
+            raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.SIMILAR_URL, params={
             "acc": acc,
@@ -317,8 +305,3 @@ class DatasetClient:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
         return res
 
-
-if __name__ == '__main__':
-    client = DatasetClient()
-    res = client.search("human")
-    print(res)

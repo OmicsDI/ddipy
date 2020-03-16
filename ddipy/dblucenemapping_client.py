@@ -1,7 +1,8 @@
 import requests
 
 from ddipy import constants
-from ddipy.ddi_utils import VerifyUtils
+from ddipy.constants import MISSING_PARAMETER
+from ddipy.ddi_utils import VerifyUtils, BadRequest
 
 
 class DbLuceneMappingClient:
@@ -25,7 +26,7 @@ class DbLuceneMappingClient:
     @staticmethod
     def get_lucene_name(db_name):
         if not db_name:
-            return VerifyUtils.empty_param_error("dbName")
+            raise BadRequest("missing parameter db_name", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.LUCENE_NAME_URL, params={
             "dbName": db_name
@@ -40,7 +41,7 @@ class DbLuceneMappingClient:
     @staticmethod
     def get_db_name(lucene_name):
         if not lucene_name:
-            return VerifyUtils.empty_param_error("luceneName")
+            raise BadRequest("missing parameter lucene_name", MISSING_PARAMETER, payload=None)
         res = requests.get(constants.DB_NAME_URL, params={
             "luceneName": lucene_name
         }, headers=constants.HEADERS)
