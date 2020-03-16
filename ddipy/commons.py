@@ -23,7 +23,8 @@ DOWNLOAD_SCALED_COUNT = "downloadCountScaled"
 
 class DatasetSummary():
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, organisms: list) -> None:
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict,
+                 keywords: list, omics_type: list, organisms: list) -> None:
         super().__init__()
         self.accession = accession
         self.database = database
@@ -38,31 +39,40 @@ class DatasetSummary():
 
 class Dataset(DatasetSummary):
 
-    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict, keywords: list, omics_type: list, organisms: list, cross_references: dict, files: list, additional: dict) -> None:
+    def __init__(self, accession: str, database: str, title: str, description: str, dates: dict, scores: dict,
+                 keywords: list, omics_type: list, organisms: list, cross_references: dict, files: list,
+                 additional: dict) -> None:
         super().__init__(accession, database, title, description, dates, scores, keywords, omics_type, organisms)
         self.cross_references = cross_references
         self.files = files
         self.additional = additional
+
+    def get_return_additional_property(self, additional_property: str):
+        property_values = []
+        if self.additional is not None and additional_property in self.additional:
+            property_values = [x for x in self.additional[additional_property] if x not in ['Not Available']]
+        return property_values
 
     def get_posttranslational_modifications(self):
         """
         Return the PTMs for proteomics experiments. If no PTMs are annotated, return an empty List
         :return: List of Post-translational modifications
         """
-        ptms = []
-        if self.additional is not None and 'modification' in self.additional:
-            ptms = [x for x in self.additional['modification'] if x not in ['Not Available']]
-        return ptms
+        return self.get_return_additional_property("modification")
 
     def get_diseases(self):
         """
         Return the Diseases for dataset. If not disease are annotated, return an empty List
         :return:
         """
-        diseases = []
-        if self.additional is not None and 'disease':
-            diseases = [x for x in self.additional['disease'] if x not in ['Not Available']]
-        return diseases
+        return self.get_return_additional_property("disease")
+
+    def get_tissues(self):
+        """
+        Return the tissues for a dataset. If not tissue is annotated, return an empty list
+        :return:
+        """
+        return self.get_return_additional_property("tissue")
 
     @staticmethod
     def get_object_from_json(json_object: json):
@@ -130,7 +140,7 @@ class Dataset(DatasetSummary):
 
         omics_type = []
         if 'omicsType' in json_object:
-           omics_type = json_object['omicsType']
+            omics_type = json_object['omicsType']
         elif 'additional' in json_object and 'omics_type' in json_object['additional']:
             omics_type = json_object['additional']['omics_type']
 
@@ -141,7 +151,7 @@ class Dataset(DatasetSummary):
         organisms = []
         if 'organisms' in json_object:
             for organism in json_object['organisms']:
-                organisms.append(organisms['name'])
+                organisms.append(organism['name'])
         elif 'additional' in json_object and 'species' in json_object['additional']:
             organisms = json_object['additional']['species']
 
@@ -149,5 +159,6 @@ class Dataset(DatasetSummary):
         if 'additional' in json_object:
             additional = json_object['additional']
 
-        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, organisms, cross_references, files, additional)
+        dataset = Dataset(accession, database, title, description, dates, scores, keywords, omics_type, organisms,
+                          cross_references, files, additional)
         return dataset
