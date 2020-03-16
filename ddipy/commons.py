@@ -141,7 +141,7 @@ class Dataset(DatasetSummary):
         organisms = []
         if 'organisms' in json_object:
             for organism in json_object['organisms']:
-                organisms.append(organisms['name'])
+                organisms.append(organism['name'])
         elif 'additional' in json_object and 'species' in json_object['additional']:
             organisms = json_object['additional']['species']
 
