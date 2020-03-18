@@ -1,7 +1,7 @@
 import requests
 
 from ddipy import constants
-from ddipy.commons import Dataset, DataSetResult, FileLinks, BatchDataset
+from ddipy.commons import Dataset, DataSetResult, BatchDataset
 from ddipy.constants import DATA_NOT_FOUND, HEADERS, MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
@@ -175,7 +175,11 @@ class DatasetClient:
                                "position": position
                            },
                            headers=constants.HEADERS)
-        return FileLinks(res.json())
+        file_links = []
+        if res.json():
+            for file_link in res.json():
+                file_links.append(file_link)
+        return file_links
 
     @staticmethod
     def get_db_dataset_count():
@@ -292,7 +296,12 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
-        return FileLinks(res.json())
+
+        file_links = []
+        if res.json():
+            for file_link in res.json():
+                file_links.append(file_link)
+        return file_links
 
     @staticmethod
     def get_similar(acc, database):

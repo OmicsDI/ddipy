@@ -96,7 +96,7 @@ class TestDatasetClient(TestCase):
 
         res = client.get_file_links("PXD000210", "pride")
 
-        assert len(res.file_links) > 0
+        assert len(res) > 0
 
         try:
             res = client.get_file_links("aaa", "pride")
