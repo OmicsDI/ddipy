@@ -1,6 +1,7 @@
 import requests
 
 from ddipy import constants
+from ddipy.commons import Dataset, DataSetResult, FileLinks, BatchDataset
 from ddipy.constants import DATA_NOT_FOUND, HEADERS, MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
@@ -154,7 +155,9 @@ class DatasetClient:
         if res.status_code != 200:
             raise BadRequest("The request dataset accession {} and database {} thrown connection error".format(accession, domain), res.status_code, payload= None)
 
-        return res.json()
+        dataset = Dataset.get_object_from_json(res.json())
+
+        return dataset
 
     @staticmethod
     def get_dataset_files(domain, accession, position):
@@ -172,7 +175,7 @@ class DatasetClient:
                                "position": position
                            },
                            headers=constants.HEADERS)
-        return res
+        return FileLinks(res.json())
 
     @staticmethod
     def get_db_dataset_count():
@@ -203,7 +206,7 @@ class DatasetClient:
         if res.status_code != 200:
             raise BadRequest("The request query {} and sortfield {} and order {} thrown connection error".format(query, sortfield, order), res.status_code, payload= None)
 
-        return res
+        return DataSetResult.get_object_from_json(res.json())
 
     @staticmethod
     def latest(size=20):
@@ -213,7 +216,7 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        return res
+        return DataSetResult.get_object_from_json(res.json())
 
     @staticmethod
     def get(acc, database):
@@ -240,8 +243,11 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request pubmed {} thrown connection error".format(pubmed), res.status_code, payload=None)
-
-        return res
+        datasets = []
+        for i in res.json():
+            dataset = Dataset.get_object_from_json(i)
+            datasets.append(dataset)
+        return datasets
 
     @staticmethod
     def batch(acc, database):
@@ -258,7 +264,7 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
-        return res
+        return BatchDataset.get_object_from_json(res.json())
 
     @staticmethod
     def most_accessed(size=20):
@@ -269,7 +275,7 @@ class DatasetClient:
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
 
-        return res
+        return DataSetResult.get_object_from_json(res.json())
 
     @staticmethod
     def get_file_links(acc, database):
@@ -286,7 +292,7 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
-        return res
+        return FileLinks(res.json())
 
     @staticmethod
     def get_similar(acc, database):
@@ -303,5 +309,5 @@ class DatasetClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error".format(acc, database), res.status_code, payload=None)
-        return res
+        return DataSetResult.get_object_from_json(res.json())
 
