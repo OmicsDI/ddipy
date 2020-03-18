@@ -10,27 +10,27 @@ class TestSeoClient(TestCase):
     def test_seo_home(self):
         client = SeoClient()
         res = client.get_seo_home()
-        assert res.status_code == 200
+        assert len(res.graph) > 0
 
     def test_seo_search(self):
         client = SeoClient()
         res = client.get_seo_search()
-        assert res.status_code == 200
+        assert res.name == "Browse"
 
-    def test_seo_search(self):
+    def test_seo_api(self):
         client = SeoClient()
         res = client.get_seo_api()
-        assert res.status_code == 200
+        assert res.name == "API"
 
     def test_seo_database(self):
         client = SeoClient()
         res = client.get_seo_database()
-        assert res.status_code == 200
+        assert res.name == "Databases"
 
     def test_seo_dataset(self):
         client = SeoClient()
         res = client.get_seo_dataset("pride", "PXD000210")
-        assert res.status_code ==200
+        assert res.name == "Proteome analysis by charge state-selective separation of peptides: a multidimensional approach"
         try:
             res = client.get_seo_dataset("pride", "PXDqqqqqqqq")
         except BadRequest as err:
@@ -44,4 +44,4 @@ class TestSeoClient(TestCase):
     def test_seo_about(self):
         client = SeoClient()
         res = client.get_seo_about()
-        assert res.status_code == 200
+        assert res.name == "About OmicsDI"

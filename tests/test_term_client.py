@@ -10,7 +10,8 @@ class TestTermClient(TestCase):
     def test_get_term_by_pattern(self):
         client = TermClient()
         res = client.get_term_by_pattern("hom", 10)
-        assert res.status_code == 200
+        assert res.total_count > 0
+        assert len(res.items) > 0
 
         try:
             res = client.get_term_by_pattern("$@", 10)
@@ -21,7 +22,7 @@ class TestTermClient(TestCase):
         client = TermClient()
 
         res = client.get_term_frequently_term_list("pride", "description", 20)
-        assert res.status_code == 200
+        assert len(res)
 
         try:
             res = client.get_term_frequently_term_list("konkon", "description", 20)

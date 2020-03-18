@@ -1,6 +1,7 @@
 import requests
 
 from ddipy import constants
+from ddipy.commons import DictWord, Term
 from ddipy.constants import DATA_NOT_FOUND, MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
@@ -20,7 +21,7 @@ class TermClient:
             raise BadRequest("The request query {} and size {} thrown connection error".format(q, size), res.status_code, payload=None)
         if res.status_code == 200 and res.json()["total_count"] ==0:
             raise BadRequest("The request found nothing in server", DATA_NOT_FOUND, payload=None)
-        return res
+        return DictWord.get_object_from_json(res.json())
 
     @staticmethod
     def get_term_frequently_term_list(domain, field, size=20):
@@ -38,4 +39,11 @@ class TermClient:
 
         if res.status_code != 200:
             raise BadRequest("The request domain {} and field {} and size {} thrown connection error".format(domain, field, size), res.status_code, payload=None)
-        return res
+
+        terms = []
+        if res.json():
+            for term_json in res.json():
+                term = Term.get_object_from_json(term_json)
+                terms.append(term)
+
+        return terms

@@ -1,6 +1,7 @@
 import requests
 
 from ddipy import constants
+from ddipy.commons import StructuredDataGraph, StructuredData
 from ddipy.constants import MISSING_PARAMETER
 from ddipy.ddi_utils import VerifyUtils, BadRequest
 
@@ -15,21 +16,21 @@ class SeoClient:
         res = requests.get(constants.SEO_URL_HOME, headers=constants.HEADERS)
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        return res
+        return StructuredDataGraph.get_object_from_json(res.json())
 
     @staticmethod
     def get_seo_search():
         res = requests.get(constants.SEO_SEARCH_URL, headers=constants.HEADERS)
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        return res
+        return StructuredData.get_object_from_json(res.json())
 
     @staticmethod
     def get_seo_api():
         res = requests.get(constants.SEO_API_URL, headers=constants.HEADERS)
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        return res
+        return StructuredData.get_object_from_json(res.json())
 
     @staticmethod
     def get_seo_schema(acc, domain):
@@ -48,7 +49,7 @@ class SeoClient:
         res = requests.get(constants.SEO_DATABASE_URL, headers=constants.HEADERS)
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        return res
+        return StructuredData.get_object_from_json(res.json())
 
     @staticmethod
     def get_seo_dataset(domain, acc):
@@ -62,11 +63,11 @@ class SeoClient:
 
         if res.status_code != 200:
             raise BadRequest("The request accession {} and database {} thrown connection error", res.status_code, payload=None)
-        return res
+        return StructuredData.get_object_from_json(res.json())
 
     @staticmethod
     def get_seo_about():
         res = requests.get(constants.SEO_ABOUT_URL, headers=constants.HEADERS)
         if res.status_code != 200:
             raise BadRequest("The request thrown connection error", res.status_code, payload=None)
-        return res
+        return StructuredData.get_object_from_json(res.json())
