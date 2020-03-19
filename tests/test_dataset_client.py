@@ -33,14 +33,14 @@ class TestDatasetClient(TestCase):
         client = DatasetClient()
         res = client.search("cancer human", "publication_date", "ascending")
 
-        assert len(res.dataset_array) > 0
+        assert len(res.datasets) > 0
 
         assert res.count > 0
 
         res_other_pages = client.search("cancer human", "publication_date", "ascending", 1200, 30, 20)
 
         assert res_other_pages.count > 0
-        assert len(res_other_pages.dataset_array) == 30
+        assert len(res_other_pages.datasets) == 30
 
         try:
             dataset = client.search("j9j9j9j9@£", "publication_date", "ascending")
@@ -76,7 +76,7 @@ class TestDatasetClient(TestCase):
         res = client.latest(20)
 
         assert res.count > 0
-        assert len(res.dataset_array) > 0
+        assert len(res.datasets) > 0
 
         try:
             client.latest(0)
@@ -89,7 +89,7 @@ class TestDatasetClient(TestCase):
         res = client.most_accessed(20)
 
         assert res.count > 0
-        assert len(res.dataset_array) > 0
+        assert len(res.datasets) > 0
 
         try:
             res = client.most_accessed(0)
@@ -118,7 +118,7 @@ class TestDatasetClient(TestCase):
 
         res = client.get_similar("PXD000210", "pride")
         assert res.count > 0
-        assert len(res.dataset_array)
+        assert len(res.datasets)
 
         try:
             res = client.get_similar("aaaa", "pride")
