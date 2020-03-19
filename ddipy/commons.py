@@ -171,8 +171,8 @@ class Dataset(DatasetSummary):
 
 class DataSetResult():
     def __init__(self, dataset_array: list, facet_array: list, count: int):
-        self.dataset_array = dataset_array
-        self.facet_array = facet_array
+        self.datasets = dataset_array
+        self.facets = facet_array
         self.count = count
 
     @staticmethod

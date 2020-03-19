@@ -21,7 +21,7 @@ from ddipy.dataset_client import DatasetClient
 if __name__ == '__main__':
    client = DatasetClient()
    res = client.get_dataset_details("pride", "PXD000210", False)
-   print(res.text)
+   
 ```
         
 This example shows a search for all the datasets for human.
@@ -31,8 +31,19 @@ from ddipy.dataset_client import DatasetClient
     
 if __name__ == '__main__':
    client = DatasetClient()
-   res = client.search("human")
-   print(res.text)
+   res = client.search("cancer human", "publication_date", "ascending")
+   
+```
+
+This example shows a search for all the datasets for cancer human and loop over the pagination
+
+```python
+from ddipy.dataset_client import DatasetClient
+    
+if __name__ == '__main__':
+   client = DatasetClient()
+   res = client.search("cancer human", "publication_date", "ascending", 1200, 30, 20)
+   
 ```
 
 This example is a query to retrieve all the datasets that reported the UniProt protein P21399 as identified.
@@ -43,7 +54,7 @@ from ddipy.dataset_client import DatasetClient
 if __name__ == '__main__':
     client = DatasetClient()
     res = client.search("UNIPROT:P21399")
-    print(res.text)
+    
 ```
 
 This example is a query to find all the datasets where the gene ENSG00000147251 is reported as differentially expressed.
@@ -54,18 +65,80 @@ from ddipy.dataset_client import DatasetClient
 if __name__ == '__main__':
     client = DatasetClient()
     res = client.search("ENSEMBL:ENSG00000147251")
-    print(res.text)
+    
 ```
-        
-The normal result of any client should be an original response from [requests](https://pypi.org/project/requests/).
-when missing some of required parameters, the result shoud be like:
+
+This example is a query to retrieve all databases recorded in OmicsDI
 
 ```python
-  {
-     error: parameter is missing
-  }
+from ddipy.dataset_client import DatabaseClient
 
+if __name__ == '__main__':
+   client = DatabaseClient()
+   res = client.get_database_all()
 ```
+
+
+This example is retriveing JSON+LD for dataset page
+
+```python
+from ddipy.dataset_client import SeoClient
+
+if __name__ == '__main__':
+    client = SeoClient()
+    res = client.get_seo_dataset("pride", "PXD000210")
+```
+
+This example is  retriveing JSON+LD for home page
+
+```python
+from ddipy.dataset_client import SeoClient
+
+if __name__ == '__main__':
+    client = SeoClient()
+    res = client.get_seo_home()
+```
+
+This example is a query for statistics about the number of datasets per Tissue
+
+```python
+from ddipy.dataset_client import StatisticsClient
+
+if __name__ == '__main__':
+    client = StatisticsClient()
+    res = client.get_statistics_tissues(20)
+```
+
+This example is a query for statistics about the number of datasets per dieases
+
+```python
+from ddipy.dataset_client import StatisticsClient
+
+if __name__ == '__main__':
+    client = StatisticsClient()
+    res = client.get_statistics_diseases(20)
+```
+
+This example for searching dictionary terms
+
+```python
+from ddipy.dataset_client import TermClient
+
+if __name__ == '__main__':
+    client = TermClient()
+    res = client.get_term_by_pattern("hom", 10)
+```
+
+This example for retrieving frequently terms from the repo
+
+```python
+from ddipy.dataset_client import TermClient
+
+if __name__ == '__main__':
+    client = TermClient()
+    res = client.get_term_by_pattern("pride", "description", 20)
+```
+
 
 Find out about us in our GitHub profiles:
 
