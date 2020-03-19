@@ -37,6 +37,11 @@ class TestDatasetClient(TestCase):
 
         assert res.count > 0
 
+        res_other_pages = client.search("cancer human", "publication_date", "ascending", 1200, 30, 20)
+
+        assert res_other_pages.count > 0
+        assert len(res_other_pages.dataset_array) == 30
+
         try:
             dataset = client.search("j9j9j9j9@£", "publication_date", "ascending")
         except BadRequest as err:
