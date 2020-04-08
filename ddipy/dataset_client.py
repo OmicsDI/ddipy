@@ -141,19 +141,17 @@ class DatasetClient:
         return res
 
     @staticmethod
-    def get_dataset_details(domain, accession, debug=False):
+    def get_dataset_details(domain, accession):
         if not domain:
             raise BadRequest("missing parameter domain", MISSING_PARAMETER, payload=None)
 
         if not accession:
             raise BadRequest("missing parameter accession", MISSING_PARAMETER, payload=None)
 
-        res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession, params={
-            "debug": debug
-        }, headers=constants.HEADERS)
+        res = requests.get(constants.DATASET_URL + "/" + domain + "/" + accession, headers=constants.HEADERS)
 
         if res.status_code != 200:
-            raise BadRequest("The request dataset accession {} and database {} thrown connection error".format(accession, domain), res.status_code, payload= None)
+            raise BadRequest("The request dataset accession {} and database {} thrown connection error".format(accession, domain), res.status_code, payload=None)
 
         dataset = Dataset.get_object_from_json(res.json())
 
@@ -187,7 +185,7 @@ class DatasetClient:
         return res
 
     @staticmethod
-    def search(query="", sortfield="", order="", start=0, size=20, face_count=20):
+    def search(query, sortfield=None, order=None, start=0, size=20, face_count=20):
         params = {
             "start": start,
             "size": size,
@@ -197,13 +195,9 @@ class DatasetClient:
             raise BadRequest("missing parameter query", MISSING_PARAMETER, payload=None)
         else:
             params.update(query=query)
-        if not sortfield:
-            raise BadRequest("missing parameter sortfield", MISSING_PARAMETER, payload=None)
-        else:
+        if sortfield:
             params.update(sortfield=sortfield)
-        if not order:
-            raise BadRequest("missing parameter order", MISSING_PARAMETER, payload=None)
-        else:
+        if order:
             params.update(order=order)
 
         res = requests.get(constants.SEARCH_URL, params=params, headers=constants.HEADERS)

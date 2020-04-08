@@ -13,7 +13,7 @@ class TestDatasetClient(TestCase):
         :return:
         """
         client = DatasetClient()
-        dataset = client.get_dataset_details("pride", "PXD000210", False)
+        dataset = client.get_dataset_details("pride", "PXD000210")
 
         assert dataset.accession == "PXD000210"
         assert len(dataset.description) == 2227
