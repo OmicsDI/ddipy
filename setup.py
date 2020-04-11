@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="ddipy",
-    version="0.0.3",
+    version="0.0.4",
     keywords=["pip", "omicsDI", "WS-client"],
     py_modules=["ddipy"],
     description="Python client for OmicsDI Restful API",
