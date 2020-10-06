@@ -22,5 +22,10 @@ setup(
     python_requires='>=3.4',
     long_description_content_type='text/markdown',
     long_description=readme(),
-    install_requires=["requests", "pytest"]
+    install_requires=["requests", "pytest"],
+    entry_points={
+        "console_scripts": [
+            "protter = omicsdi_cli:main"
+        ]
+    },
 )
