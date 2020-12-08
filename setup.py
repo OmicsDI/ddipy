@@ -1,16 +1,37 @@
 from setuptools import setup, find_packages
+import re
 
 
 def readme():
     with open('README.md') as f:
         return f.read()
+
+
 def requirements():
     with open('requirements.txt') as f:
         return f.read().splitlines()
 
+
+PEP440_PATTERN = r"([1-9][0-9]*!)?(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*((a|b|rc)(0|[1-9][0-9]*))?(\.post(0|[1-9][0-9]*))?(\.dev(0|[1-9][0-9]*))?"  # noqa
+
+
+def version():
+    with open('ddipy/_version.py') as f:
+        # "parse" rocrate/_version.py which MUST have this pattern
+        # __version__ = "0.1.1"
+        # see https://www.python.org/dev/peps/pep-0440
+        v = f.read().strip()
+        m = re.match(r'^__version__ = "(' + PEP440_PATTERN + ')"$', v)
+        if not m:
+            msg = ('rocrate/_version.py did not match pattern '
+                   '__version__ = "0.1.2"  (see PEP440):\n') + v
+            raise Exception(msg)
+        return m.group(1)
+
+
 setup(
     name="ddipy",
-    version="0.0.5",
+    version=version(),
     keywords=["pip", "omicsDI", "WS-client"],
     py_modules=["ddipy"],
     description="Python client for OmicsDI Restful API",

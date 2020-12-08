@@ -11,6 +11,7 @@ import shutil
 import click
 import sys
 from ddipy.dataset_client import DatasetClient
+from ddipy._version import __version__
 
 
 def url_path_join(*args):
@@ -86,11 +87,6 @@ def filename_process(filename):
         return filename
 
 
-def print_version(ctx, param, value):
-    if not value or ctx.resilient_parsing:
-        return
-    click.echo('Version 0.1')
-    ctx.exit()
 
 def download_ftp_files( domain, project_dir, dir_path, filename):
     """Download ftp files in given directory"""
@@ -136,7 +132,7 @@ def download_http_files(self, file_url, filename, dir_path):
 
 
 @click.command(context_settings={'help_option_names': ['-h', '--help']})
-@click.option('--version', '-v',  callback=print_version, expose_value=False, is_eager=True, is_flag=True, help="Print version number")
+@click.version_option(__version__)
 @click.argument('acc_number')
 @click.option(
     '--download', '-d',  is_flag=True,
