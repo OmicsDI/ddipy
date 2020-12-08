@@ -4,11 +4,13 @@ from setuptools import setup, find_packages
 def readme():
     with open('README.md') as f:
         return f.read()
-
+def requirements():
+    with open('requirements.txt') as f:
+        return f.read().splitlines()
 
 setup(
     name="ddipy",
-    version="0.0.4",
+    version="0.0.5",
     keywords=["pip", "omicsDI", "WS-client"],
     py_modules=["ddipy"],
     description="Python client for OmicsDI Restful API",
@@ -22,10 +24,10 @@ setup(
     python_requires='>=3.4',
     long_description_content_type='text/markdown',
     long_description=readme(),
-    install_requires=["requests", "pytest"],
+    install_requires=[requirements()],
     entry_points={
         "console_scripts": [
-            "protter = omicsdi_cli:main"
+            "omicsdi = ddipy.cli:main"
         ]
     },
 )
