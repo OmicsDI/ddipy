@@ -106,7 +106,7 @@ def download_ftp_files( domain, project_dir, dir_path, filename):
             click.echo('--> Please check if ' + filename +
                     ' exists in ' + project_dir + ' on the domain ' + domain)
 
-def download_http_files(self, file_url, filename, dir_path):
+def download_http_files(file_url, filename, dir_path):
     """Download http files in given directory"""
 
     file_path = url_path_join(dir_path, filename)
