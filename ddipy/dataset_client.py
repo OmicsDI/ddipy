@@ -225,7 +225,7 @@ class DatasetClient:
             raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.GET_URL, params={
-            "acc": acc,
+            "accession": acc,
             "database": database
         }, headers=constants.HEADERS)
         return res.json()
@@ -256,7 +256,7 @@ class DatasetClient:
             raise BadRequest("missing parameter database", MISSING_PARAMETER, payload=None)
 
         res = requests.get(constants.BATCH_URL, params={
-            "acc": acc,
+            "accession": acc,
             "database": database
         }, headers=constants.HEADERS)
 

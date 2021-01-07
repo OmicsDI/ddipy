@@ -21,7 +21,7 @@ class TestDatasetClient(TestCase):
         try:
             dataset = client.get_dataset_details("PXD@£", "pride")
         except BadRequest as err:
-            assert err.status == 500
+            assert err.status == 404
 
         try:
             dataset = client.get_dataset_details(None, "pride")
