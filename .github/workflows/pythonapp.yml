@@ -23,7 +23,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install .
     - name: Test with tests
       run: |
         pytest
+    - name: Test CLI download capabilities
+      run: |
+        omicsdi -h
+        omicsdi E-MTAB-5612
+        omicsdi E-MTAB-5612 -d
+        omicsdi BIOMD0000000048
+        omicsdi BIOMD0000000048 -d

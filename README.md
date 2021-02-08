@@ -79,7 +79,7 @@ if __name__ == '__main__':
 ```
 
 
-This example is retriveing JSON+LD for dataset page
+This example is retrieving JSON+LD for dataset page
 
 ```python
 from ddipy.dataset_client import SeoClient
@@ -145,3 +145,33 @@ Find out about us in our GitHub profiles:
 [Yasset Perez-Riverol](https://github.com/ypriverol)  
 [Pan Xu](https://github.com/hll3939092)
 
+
+### CLI for downloading files
+
+When ddipy is installed correctly it should be available on your path through the command `omicsdi`. This command line interface makes it possible to list all the data links and download the data itself related to an accession number. The tool has one mandatory parameter 'accession number' and several options:
+
+```
+omicsdi_fetcher [OPTIONS] ACC_NUMBER
+```
+
+| Option           | Type | Description                                                                                  |
+|------------------|------|----------------------------------------------------------------------------------------------|
+|   --version      | FLAG | Show the version and exit.                                                                   |
+|   -d, --download | FLAG | Use this flag to download the files in the current directory or a specified output directory |
+|   -o, --output   | PATH | Output directory when downloading files (default: CWD)                                       |
+|   -h, --help     | FLAG | Show this message and exit.                                                                  |
+
+#### Examples
+
+- A microarray dataset with ftp links:
+    ```
+    omicsdi E-MTAB-5612
+    ```
+- Downloading the microarray dataset with ftp links:
+    ```
+    omicsdi E-MTAB-5612 -d
+    ```
+- A BioModels dataset with https links:
+    ```
+    omicsdi BIOMD0000000048
+    ```
