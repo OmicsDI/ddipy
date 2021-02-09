@@ -1,5 +1,3 @@
 requests
 pytest
 click
-pyOpenSSL
-urllib3
