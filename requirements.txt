@@ -1,3 +1,5 @@
 requests
 pytest
 click
+pyOpenSSL
+certifi==2019.11.28
