@@ -193,7 +193,8 @@ def main(acc_number, download, output, verbose, input):
                 if verbose:
                     # checksum as unique identifier within accessionnumber allowing selection
                     url_id = hashlib.md5(file_url.encode()).hexdigest()
-                    click.echo(f"{url_id[:10]}\t{ext}\t{file_url}")
+                    info = url_info(file_url)
+                    click.echo(f"{url_id[:10]}\t{ext}\t{filename_process(info['filename'])}\t{file_url}")
                 else:
                     click.echo(file_url)
 
