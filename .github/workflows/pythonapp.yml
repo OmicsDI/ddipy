@@ -32,5 +32,6 @@ jobs:
         omicsdi -h
         omicsdi E-MTAB-5612
         omicsdi E-MTAB-5612 -d
-        omicsdi BIOMD0000000048
+        omicsdi BIOMD0000000048 -v
         omicsdi BIOMD0000000048 -d
+        

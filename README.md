@@ -154,12 +154,14 @@ When ddipy is installed correctly it should be available on your path through th
 omicsdi_fetcher [OPTIONS] ACC_NUMBER
 ```
 
-| Option           | Type | Description                                                                                  |
-|------------------|------|----------------------------------------------------------------------------------------------|
-|   --version      | FLAG | Show the version and exit.                                                                   |
-|   -d, --download | FLAG | Use this flag to download the files in the current directory or a specified output directory |
-|   -o, --output   | PATH | Output directory when downloading files (default: CWD)                                       |
-|   -h, --help     | FLAG | Show this message and exit.                                                                  |
+| Option           | Type | Description                                                                                                  |
+|------------------|------|--------------------------------------------------------------------------------------------------------------|
+|   --version      | FLAG | Show the version and exit.                                                                                   |
+|   -d, --download | FLAG | Use this flag to download the files in the current directory or a specified output directory                 |
+|   -v, --verbose  | FLAG | Use this flag to print identifiers and file extension along with the urls                                    |
+|   -i, --input    | LIST | This option allows you to download the a selection of the files based on comma separated list of identifiers |
+|   -o, --output   | PATH | Output directory when downloading files (default: CWD)                                                       |
+|   -h, --help     | FLAG | Show this message and exit.                                                                                  |
 
 #### Examples
 
@@ -171,7 +173,12 @@ omicsdi_fetcher [OPTIONS] ACC_NUMBER
     ```
     omicsdi E-MTAB-5612 -d
     ```
-- A BioModels dataset with https links:
+- A BioModels dataset with https links and exposing identifiers for each file link:
     ```
-    omicsdi BIOMD0000000048
+    omicsdi BIOMD0000000048 -v
+    ```
+
+- Downloading a selection of the files belonging to an accession number based on a list of identifiers as input:
+    ```
+    omicsdi BIOMD0000000048 -d -i "8b52492888, d3144265ac"
     ```
